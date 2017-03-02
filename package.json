@@ -1,0 +1,46 @@
+{
+  "name": "maf-config",
+  "version": "0.0.0",
+  "description": "extendable config",
+  "main": "index.js",
+  "files": [
+    "src",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "./node_modules/.bin/tap test/unit/**/*.js -J --coverage",
+    "test:fast": "./node_modules/.bin/tap test/unit/**/*.js -J",
+    "test:cov": "npm test -- --coverage-report=html",
+    "postversion": "git push origin && git push --tags"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mafjs/config.git"
+  },
+  "keywords": [
+    "maf"
+  ],
+  "author": "alekzonder <alekzonder@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mafjs/config/issues"
+  },
+  "homepage": "https://github.com/mafjs/config#readme",
+  "devDependencies": {
+    "coveralls": "^2.11.16",
+    "eslint": "^3.16.1",
+    "tap": "^10.2.2"
+  },
+  "dependencies": {
+    "maf-error": "^0.9.2"
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/*js"
+    ]
+  }
+}

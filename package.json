@@ -1,6 +1,6 @@
 {
   "name": "maf-config",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "extendable config",
   "main": "index.js",
   "scripts": {

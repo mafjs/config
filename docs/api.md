@@ -8,6 +8,7 @@
     - [`validation (validationFunction)`](#validation-validationfunction)
     - [`validate ()`](#validate-)
     - [`isValid ()`](#isvalid-)
+    - [`recieve ())`](#receive-)
     - [`use (plugin)`](#use-plugin)
     - [`from (filepath)`](#from-filepath)
     - [`part (filepath, [pathInConfig])`](#part-filepath-pathinconfig)
@@ -118,6 +119,13 @@ throws `ConfigError, code = INVALID_VALIDATION_FUNCTION` if validation function 
 is config valid
 
 return `Boolean`
+
+
+### `receive ()`
+
+get config from sources
+
+return `Promise`
 
 <!-- ### `init ()`
 

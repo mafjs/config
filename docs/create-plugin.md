@@ -2,7 +2,8 @@
 
 ## plugin types
 
-- [`receive`](#receive-plugin-type) - for checking, reading and parse configs from anywhere
+- [`receive`](#receive-plugin-type) - get config data from anywhere
+- [`validate`]() - validate with your favorite validator
 
 
 ## `receive` plugin type
@@ -60,3 +61,8 @@ return `Promise`
 in this method your can read and parse config
 
 Promise should resolve config object
+
+
+## `validate` plugin type
+
+TODO

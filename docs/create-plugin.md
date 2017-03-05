@@ -3,13 +3,16 @@
 ## plugin types
 
 - [`receive`](#receive-plugin-type) - get config data from anywhere
-- [`validate`]() - validate with your favorite validator
+- [`validate`](#validate-plugin-type) - validate with your favorite validator
 
 
 ## `receive` plugin type
 
-should implement interface
+plugin class should implement interface
 
+### `type = 'receive'`
+
+Instance property. String
 
 
 ### `constructor ([logger])`

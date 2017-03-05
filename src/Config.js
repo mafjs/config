@@ -6,6 +6,7 @@ var ConfigError = require('./Error');
 var set = require('./methods/set');
 var get = require('./methods/get');
 var validate = require('./methods/validate');
+var use = require('./methods/use');
 
 class Config {
 
@@ -21,8 +22,10 @@ class Config {
         this._valid = false;
         this._validation = null;
 
-        // this._raw = {};
         this._data = {};
+
+        this._receivePlugins = [];
+        this._validatePlugin = null;
     }
 
     /**
@@ -104,6 +107,18 @@ class Config {
      */
     isValid () {
         return this._valid;
+    }
+
+    /**
+     * add plugin
+     *
+     * @param {Function} plugin
+     * @param {Object} options
+     * @return {this}
+     */
+    use (plugin, options) {
+        use(this, plugin, options);
+        return this;
     }
 
     /**

@@ -22,6 +22,12 @@ class Config {
         this._data = {};
     }
 
+    /**
+     * set config immutable or mutable
+     *
+     * @param {Boolean} flag
+     * @return {this}
+     */
     setImmutable (flag) {
         if (typeof flag !== 'boolean') {
             throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
@@ -47,6 +53,13 @@ class Config {
         return set(this, name, value);
     }
 
+    /**
+     * get config param
+     *
+     * @param {String|Array} name
+     * @param {Null|Array|String|Number|Object|Boolean} defaultValue
+     * @return {Undefined|Null|Array|String|Number|Object|Boolean}
+     */
     get (name, defaultValue) {
         return get(this, name, defaultValue);
     }

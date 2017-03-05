@@ -7,7 +7,7 @@
     - [`get (name, [defaultValue = null])`](#get-name-defaultvalue--null)
     - [`validation (validationFunction)`](#validation-validationfunction)
     - [`validate ()`](#validate-)
-    - [`init ()`](#init-)
+    - [`isValid ()`](#isvalid-)
     - [`use (plugin)`](#use-plugin)
     - [`from (filepath)`](#from-filepath)
     - [`part (filepath, [pathInConfig])`](#part-filepath-pathinconfig)
@@ -109,11 +109,17 @@ call validationFunction and apply config
 
 return `Promise`
 
-throws `ConfigError, code = INVALID` if raw config data invalid
+throws `ConfigError, code = INVALID_DATA` if raw config data invalid
+throws `ConfigError, code = INVALID_VALIDATION_FUNCTION` if validation function return not Promise
 
 
+### `isValid ()`
 
-### `init ()`
+is config valid
+
+return `Boolean`
+
+<!-- ### `init ()`
 
 init config
 
@@ -123,7 +129,7 @@ init config
 
 return `Promise`
 
-throws `ConfigError, code = INVALID` if raw config data invalid
+throws `ConfigError, code = INVALID` if raw config data invalid -->
 
 
 
@@ -308,4 +314,4 @@ config.init()
 ### error codes
 
 - IMMUTABLE - throw if try to modify immutable config
-- INVALID   - throw if validation fails
+- INVALID_DATA   - validation fails

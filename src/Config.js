@@ -5,6 +5,7 @@ var ConfigError = require('./Error');
 // class methods
 var set = require('./methods/set');
 var get = require('./methods/get');
+var validate = require('./methods/validate');
 
 class Config {
 
@@ -17,9 +18,10 @@ class Config {
         this._logger = this._validateLogger(logger);
 
         this._immutable = false;
+        this._valid = false;
         this._validation = null;
 
-        this._raw = {};
+        // this._raw = {};
         this._data = {};
     }
 
@@ -84,6 +86,24 @@ class Config {
         this._validation = validationFunction;
 
         return this;
+    }
+
+    /**
+     * validate config
+     *
+     * @return {Promise}
+     */
+    validate () {
+        return validate(this);
+    }
+
+    /**
+     * is config valid
+     *
+     * @return {Boolean}
+     */
+    isValid () {
+        return this._valid;
     }
 
     /**

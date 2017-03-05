@@ -42,26 +42,31 @@ return `this`
 set config param
 
 - `name` - String. dot-delimeted path to param (see lodash.set)
-- `value` - String|Number|Array|Object|Null
+- `value` - Null|String|Number|Array|Object|Boolean
 
 return `this`
 
 throws `ConfigError code = IMMUTABLE`, if config set immutable
+throws `ConfigError code = INVALID_ARGS` if some args in function invalid
 
 if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271
 
 
 
-### `get (name, [defaultValue = null])`
+### `get (name, [defaultValue = undefined])`
 
 get config param
 
 - `name` - String. dot-delimeted path to param (see lodash.get)
-- `defaultValue = null` - String|Number|Array|Object|Null. default value = null. returns if config value undefined
+- `defaultValue = undefined` - Null|String|Number|Array|Object
 
-return param value or Undefined if not exists
+return param value or defaultValue if not exists
+
+return value cloned
 
 use `config.get('.')` if need to get all config object
+
+throws `ConfigError code = INVALID_ARGS` if some args in function invalid
 
 if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271)
 

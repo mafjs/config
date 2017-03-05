@@ -9,6 +9,10 @@ extendable config
 
 [![NPM](https://nodei.co/npm/maf-config.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/maf-config/)
 
+# API
+
+see [docs/api.md](docs/api.md)
+
 # LICENSE
 
 MIT

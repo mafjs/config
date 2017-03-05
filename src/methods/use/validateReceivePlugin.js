@@ -4,7 +4,6 @@ module.exports = function (plugin, ConfigError) {
         'name': 'string',
         'init': 'function',
         'isMatch': 'function',
-        'exists': 'function',
         'read': 'function'
     };
 

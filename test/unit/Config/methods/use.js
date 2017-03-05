@@ -47,7 +47,6 @@ t.test('#use recieve plugin type', function (t) {
 
         Plugin.prototype.init = function () {};
         Plugin.prototype.isMatch = function () {};
-        Plugin.prototype.exists = function () {};
         Plugin.prototype.read = function () {};
 
         t.equal(config._receivePlugins.length, 0);
@@ -75,7 +74,6 @@ t.test('#use recieve plugin type', function (t) {
             t.end();
         };
         Plugin.prototype.isMatch = function () {};
-        Plugin.prototype.exists = function () {};
         Plugin.prototype.read = function () {};
 
         use(config, Plugin, {a: 1});
@@ -118,8 +116,7 @@ t.test('#use recieve plugin type', function (t) {
 
         invalidPlugins.push(createPlugin(['init']));
         invalidPlugins.push(createPlugin(['init', 'isMatch']));
-        invalidPlugins.push(createPlugin(['init', 'isMatch', 'exists']));
-        invalidPlugins.push(createPlugin(['init', 'isMatch', 'read']));
+        invalidPlugins.push(createPlugin(['init', 'read']));
 
 
         var count = 0;

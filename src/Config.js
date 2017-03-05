@@ -7,6 +7,7 @@ var set = require('./methods/set');
 var get = require('./methods/get');
 var validate = require('./methods/validate');
 var use = require('./methods/use');
+var receive = require('./methods/receive');
 var _in = require('./methods/_in');
 
 class Config {
@@ -169,6 +170,15 @@ class Config {
 
         return this;
 
+    }
+
+    /**
+     * receive sources
+     *
+     * @return {this}
+     */
+    receive () {
+        return receive(this);
     }
 
     /**

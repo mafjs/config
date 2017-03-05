@@ -11,7 +11,6 @@ var use = require(root + '/package/methods/use');
 var createConfigStub = function () {
 
     return {
-        _immutable: false,
         _data: {},
         _receivePlugins: [],
         _validatePlugin: null,
@@ -42,6 +41,7 @@ t.test('#use recieve plugin type', function (t) {
 
         var Plugin = function (logger) {
             this.type = 'receive';
+            this.name = 'test';
             t.same(logger, config._logger);
         };
 
@@ -66,6 +66,7 @@ t.test('#use recieve plugin type', function (t) {
 
         var Plugin = function (logger) {
             this.type = 'receive';
+            this.name = 'test';
             t.same(logger, config._logger);
         };
 
@@ -88,6 +89,12 @@ t.test('#use recieve plugin type', function (t) {
         var PluginWithoutType = function () {};
 
         invalidPlugins.push(PluginWithoutType);
+
+        var PluginWithoutName = function () {
+            this.type = 'recieve';
+        };
+
+        invalidPlugins.push(PluginWithoutName);
 
         var PluginWithoutAnyMethods = function () {
             this.type = 'receive';

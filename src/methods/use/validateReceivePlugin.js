@@ -1,14 +1,20 @@
 module.exports = function (plugin, ConfigError) {
     // validate receive plugin interface
-    var methods = ['init', 'isMatch', 'exists', 'read'];
+    var props = {
+        'name': 'string',
+        'init': 'function',
+        'isMatch': 'function',
+        'exists': 'function',
+        'read': 'function'
+    };
 
-    for (var i in methods) {
-        var method = methods[i];
+    for (var name in props) {
+        var type = props[name];
 
-        if (typeof plugin[method] !== 'function') {
+        if (typeof plugin[name] !== type) {
             throw ConfigError.createError(
                 ConfigError.CODES.INVALID_PLUGIN,
-                'maf-config: receive plugin type:  method "' + method + '" not exists'
+                'maf-config: receive plugin type:  prop "' + name + '" is not ' + type
             );
         }
     }

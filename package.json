@@ -52,7 +52,7 @@
     "all": true,
     "include": [
       "src/*.js",
-      "src/methods/*.js"
+      "src/methods/**/*.js"
     ],
     "exclude": [
       "src/modules/kind-of.js"

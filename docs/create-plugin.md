@@ -40,19 +40,6 @@ return `Promise`
 Promise should resolve `Boolean`
 
 
-
-### `exists (filepath)`
-
-check file exists
-
-- `filepath` - String. path to config
-
-return `Promise`
-
-Promise should resolve `Boolean`
-
-
-
 ### `read (filepath)`
 
 read config

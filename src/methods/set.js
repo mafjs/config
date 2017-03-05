@@ -34,6 +34,10 @@ module.exports = function (config, name, value) {
 
     }
 
+    if (typeOfName === 'string') {
+        name = name.trim();
+    }
+
     var typeOfValue = kindOf(value);
 
     config._debug('set: typeOf value = ', typeOfValue);
@@ -48,7 +52,11 @@ module.exports = function (config, name, value) {
         });
     }
 
-    _set(config._data, name, value);
+    if (name === '.') {
+        config._data = value;
+    } else {
+        _set(config._data, name, value);
+    }
 
     return config;
 };

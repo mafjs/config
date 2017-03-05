@@ -46,6 +46,8 @@ set config param
 
 return `this`
 
+use `config.set('.', value)` if need to set all config object
+
 throws `ConfigError code = IMMUTABLE`, if config set immutable
 throws `ConfigError code = INVALID_ARGS` if some args in function invalid
 

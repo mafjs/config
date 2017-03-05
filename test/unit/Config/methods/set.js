@@ -15,6 +15,20 @@ var createConfigStub = function () {
 };
 
 t.test('base', function (t) {
+
+    t.test('should set full config object on set(\'.\', value)', function (t) {
+        var config = createConfigStub();
+
+        var set = proxyquire(root + '/package/methods/set', {});
+
+        set(config, '.', {a: 1, b: 2});
+
+        t.same(config._data, {a: 1, b: 2});
+
+        t.end();
+    });
+
+
     t.test('should set null without errors', function (t) {
 
         var mock = function (object, name, value) {

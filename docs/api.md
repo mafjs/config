@@ -5,15 +5,13 @@
     - [`setImmutable (flag)`](#setimmutable-flag)
     - [`set (name, value)`](#set-name-value)
     - [`get (name, [defaultValue = null])`](#get-name-defaultvalue--null)
+    - [`isValid ()`](#isvalid-)
     - [`validation (validationFunction)`](#validation-validationfunction)
     - [`validate ()`](#validate-)
-    - [`isValid ()`](#isvalid-)
     - [`receive ())`](#receive-)
     - [`init ()`](#init-)
     - [`use (plugin)`](#use-plugin)
-    - [`from (filepath)`](#from-filepath)
-    - [`part (filepath, [pathInConfig])`](#part-filepath-pathinconfig)
-    - [`parts (configParts)`](#parts-configparts)
+    - [`from (sourcepath, [to = '.'])`](#from-sourcepath-to)
 - [ConfigError](#configerror)
     - [error codes](error-codes)
 
@@ -152,20 +150,19 @@ return `this`
 
 
 
-### `from (filepath)`
+### `from (sourcepath, [to='.'])`
 
-set path to full config
+set path to config source
 
-- `filepath` - String. Path to config file, filetype processing in config plugins see `use` method
+- `sourcepath` - String|Object. Path to config file, filetype processing in config plugins see `use` method
+- `to = '.'` - String. Optional. Default = `.`. Param name in config for setting data of source
 
-data from `filepath` fully replace raw config (before init or validation) and will be set as valid after init or validation
-
-no any config file types supported by default, use `use` method and add config plugin for your file type
+no any config source types supported by default, use `use` method and add config plugin for your source type
 
 return `this`
 
 
-### `part (filepath, [pathInConfig])`
+<!-- ### `part (filepath, [pathInConfig])`
 
 set path to file config part
 
@@ -312,7 +309,7 @@ config.init()
             }
         }
     })
-```
+``` -->
 
 
 

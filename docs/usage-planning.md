@@ -100,7 +100,6 @@ var config = new Config();
 config.use(require('maf-config/from/json'), {options: 'here'});
 
 config
-    // TODO set full config or partly to config key
     .from('/etc/config.json')
     // add config validation if need
     .validation(function (raw) {});
@@ -150,8 +149,8 @@ config.use(require('maf-config/from/json'), {options: 'here'});
 
 config
     .from('/etc/config.json')
-    .part('/etc/mysqlDb.json')
-    .part('/etc/rest-api.json', 'restApi');
+    .from('/etc/mysqlDb.json', 'mysqlDb')
+    .from('/etc/rest-api.json', 'restApi');
 
 config.init()
     .then(() => {
@@ -173,15 +172,6 @@ config.init()
         }
     })
 
-```
-
-### init config parts with `parts` method
-
-```js
-config.parts([
-    '/etc/mysql.json',
-    '/etc/'
-])
 ```
 
 
@@ -283,11 +273,17 @@ var Config = require('maf-config');
 var config = new Config();
 
 config
-    .use(require('maf-config-yml'))
-    .use(require('maf-config/json'))
-    .from('/etc/test.config.yml')
-    .part('/etc/db.json')
-    .part('/etc/api.json')
+    .use(require('maf-config-from-yml'))
+    .use(require('maf-config-from-json'))
+    .use(require('maf-config-from-http'))
+    .from({
+        '.': '/etc/test.config.yml',
+        'db':  '/etc/db.json',
+        'api': '/etc/api.json'
+    })
+    .from('/etc/test.config.yml', '.')
+    .from('/etc/db.json', 'db')
+    .from('/etc/api.json', 'api')
     .init()
     .then(() => {
         console.log(config.get('some.param'));
@@ -309,7 +305,7 @@ config
     .use(require('maf-config-consul'))
     .use(require('maf-config-yml'))
     .from(`consul = services/tasks, services/tasks:${os.hostname()}`)
-    .part('/etc/db.yml')
+    .from('/etc/db.yml', 'db')
     .init()
     .then()
 

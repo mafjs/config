@@ -7,6 +7,7 @@ var set = require('./methods/set');
 var get = require('./methods/get');
 var validate = require('./methods/validate');
 var use = require('./methods/use');
+var _in = require('./methods/_in');
 
 class Config {
 
@@ -23,6 +24,8 @@ class Config {
         this._validation = null;
 
         this._data = {};
+
+        this._from = [];
 
         this._receivePlugins = [];
         this._validatePlugin = null;
@@ -119,6 +122,53 @@ class Config {
     use (plugin, options) {
         use(this, plugin, options);
         return this;
+    }
+
+    /**
+     * set config part sourcepath and key in config
+     *
+     * @param {String} sourcepath
+     * @param {String|Array|Undefined} to
+     * @return {this}
+     */
+    from (sourcepath, to) {
+
+        var sourcepathType = kindOf(sourcepath);
+
+        if (_in(['string'], sourcepathType) === false) {
+
+            throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
+                method: 'from',
+                arg: 'sourcepath',
+                type: 'string'
+            });
+
+        }
+
+        var toType = kindOf(to);
+
+        if (_in(['string', 'array', 'undefined'], toType) === false) {
+
+            throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
+                method: 'from',
+                arg: 'to',
+                type: 'string, array, undefined'
+            });
+
+        }
+
+        if (toType === 'string') {
+            to = to.trim();
+        }
+
+        if (toType === 'undefined') {
+            to = '.';
+        }
+
+        this._from.push({sourcepath: sourcepath, to: to});
+
+        return this;
+
     }
 
     /**

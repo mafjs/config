@@ -8,7 +8,8 @@
     - [`validation (validationFunction)`](#validation-validationfunction)
     - [`validate ()`](#validate-)
     - [`isValid ()`](#isvalid-)
-    - [`recieve ())`](#receive-)
+    - [`receive ())`](#receive-)
+    - [`init ()`](#init-)
     - [`use (plugin)`](#use-plugin)
     - [`from (filepath)`](#from-filepath)
     - [`part (filepath, [pathInConfig])`](#part-filepath-pathinconfig)
@@ -127,17 +128,15 @@ get config from sources
 
 return `Promise`
 
-<!-- ### `init ()`
 
-init config
 
-- read configs from sources
-- validate: call validationFunction
-- apply valid config
+### `init ()`
+
+receive and validate config in function call
 
 return `Promise`
 
-throws `ConfigError, code = INVALID` if raw config data invalid -->
+throws `ConfigError, code = INVALID_DATA` if raw config data invalid
 
 
 

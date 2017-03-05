@@ -11,7 +11,7 @@
     "test:fast": "./node_modules/.bin/tap test/unit -J",
     "test:cov": "npm test -- --coverage-report=html",
     "postversion": "git push origin && git push --tags",
-    "prepublish": "echo 'make publish package dir first' && exit 1",
+    "prepublish": "in-publish && echo 'use \"npm run _publish\"' && exit 1 || not-in-publish",
     "clean": "rm -rf package coverage .nyc_output npm-debug.log"
   },
   "engines": {
@@ -36,6 +36,7 @@
     "babel-preset-es2015": "6.x",
     "coveralls": "2.x",
     "eslint": "3.x",
+    "in-publish": "^2.0.0",
     "proxyquire": "1.x",
     "tap": "10.x"
   },

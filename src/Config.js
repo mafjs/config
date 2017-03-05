@@ -7,8 +7,8 @@ var set = require('./methods/set');
 var get = require('./methods/get');
 var validate = require('./methods/validate');
 var use = require('./methods/use');
+var from = require('./methods/from');
 var receive = require('./methods/receive');
-var _in = require('./methods/_in');
 
 class Config {
 
@@ -133,43 +133,7 @@ class Config {
      * @return {this}
      */
     from (sourcepath, to) {
-
-        var sourcepathType = kindOf(sourcepath);
-
-        if (_in(['string'], sourcepathType) === false) {
-
-            throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
-                method: 'from',
-                arg: 'sourcepath',
-                type: 'string'
-            });
-
-        }
-
-        var toType = kindOf(to);
-
-        if (_in(['string', 'array', 'undefined'], toType) === false) {
-
-            throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
-                method: 'from',
-                arg: 'to',
-                type: 'string, array, undefined'
-            });
-
-        }
-
-        if (toType === 'string') {
-            to = to.trim();
-        }
-
-        if (toType === 'undefined') {
-            to = '.';
-        }
-
-        this._from.push({sourcepath: sourcepath, to: to});
-
-        return this;
-
+        return from(this, sourcepath, to);
     }
 
     /**

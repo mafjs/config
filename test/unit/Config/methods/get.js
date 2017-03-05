@@ -8,7 +8,7 @@ var ConfigError = require(root + '/package/Error.js');
 var createConfigStub = function () {
     return {
         _immutable: false,
-        _config: {},
+        _data: {},
         _debug: function () {
             // console.log.apply(console, arguments);
         }
@@ -18,6 +18,25 @@ var createConfigStub = function () {
 
 // base tests
 t.test('base', function (t) {
+
+
+    t.test('should return full config object on get(\'.\')', function (t) {
+        var config = createConfigStub();
+
+        config._data = {
+            a: 1,
+            b: 2
+        };
+
+        var get = proxyquire(root + '/package/methods/get', {});
+
+        var value = get(config, '.');
+
+        t.same(value, {a: 1, b: 2});
+
+        t.end();
+    });
+
 
     t.test('should return undefined if no param in config and no defaultValue set', function (t) {
         var mock = function (object, name, defaultValue) {
@@ -61,10 +80,13 @@ t.test('base', function (t) {
         t.end();
     });
 
-    t.test('should clone returned value', function (t) {
+    t.test('should deep clone returned value', function (t) {
 
         var returnedValue = {
-            a: 1
+            a: 1,
+            b: {
+                c: 2
+            }
         };
 
         var getMock = function (/*object, name, defaultValue */) {
@@ -82,10 +104,25 @@ t.test('base', function (t) {
 
         var value = get(config, 'test');
 
-        value.b = 2;
+        value.d = 3;
+        value.b.c = 100500;
+        value.b.f = 2000;
 
-        t.same(returnedValue, {a: 1});
-        t.same(value, {a: 1, b: 2});
+        t.same(returnedValue, {
+            a: 1,
+            b: {
+                c: 2
+            }
+        });
+
+        t.same(value, {
+            a: 1,
+            b: {
+                c: 100500,
+                f: 2000
+            },
+            d: 3
+        });
         t.end();
     });
 
@@ -211,6 +248,18 @@ t.test('name arg', function (t) {
 // defaultValue arg tests
 
 t.test('defaultValue argument', function (t) {
+
+    t.test('should return undefined if no config param and defaultValue undefined', function (t) {
+        var config = createConfigStub();
+
+        var get = proxyquire(root + '/package/methods/get', {});
+
+        var value = get(config, 'test');
+
+        t.type(value, 'undefined');
+
+        t.end();
+    });
 
 
     t.test('should return defaultValue if no param in config and defaultValue defined', function (t) {

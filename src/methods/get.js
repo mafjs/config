@@ -27,7 +27,7 @@ module.exports = function (config, name, defaultValue) {
 
     var typeOfName = kindOf(name);
 
-    config._debug('set: typeOf name = ', typeOfName);
+    config._debug('get: typeOf name = ', typeOfName);
 
     if (_in(['string', 'array'], typeOfName) === false) {
         throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
@@ -37,9 +37,13 @@ module.exports = function (config, name, defaultValue) {
         });
     }
 
+    if (typeOfName === 'string') {
+        name = name.trim();
+    }
+
     var typeOfDefaultValue = kindOf(defaultValue);
 
-    config._debug('set: typeOf value = ', typeOfDefaultValue);
+    config._debug('get: typeOf value = ', typeOfDefaultValue);
 
     var valueTypes = ['undefined', 'null', 'array', 'string', 'number', 'object', 'boolean'];
 
@@ -51,7 +55,16 @@ module.exports = function (config, name, defaultValue) {
         });
     }
 
-    var value = _get(config._data, name, defaultValue);
+    var value;
+
+    if (name === '.') {
+        value = config._data;
+        config._debug('get: name == \'.\' return full config object');
+    } else {
+        value = _get(config._data, name, defaultValue);
+    }
+
+    config._debug('get: return value', value);
 
     return _clone(value);
 };

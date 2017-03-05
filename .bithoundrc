@@ -2,6 +2,7 @@
     "ignore": [
         "docs/**",
         "examples/**",
-        "test/**"
+        "test/**",
+        "src/modules/kind-of.js"
     ]
 }

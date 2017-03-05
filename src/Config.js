@@ -1,4 +1,4 @@
-// var kindOf = require('./modules/kind-of');
+var kindOf = require('./modules/kind-of');
 
 var ConfigError = require('./Error');
 
@@ -17,6 +17,7 @@ class Config {
         this._logger = this._validateLogger(logger);
 
         this._immutable = false;
+        this._validation = null;
 
         this._raw = {};
         this._data = {};
@@ -62,6 +63,27 @@ class Config {
      */
     get (name, defaultValue) {
         return get(this, name, defaultValue);
+    }
+
+    /**
+     * set validation function
+     *
+     * @param {Function} validationFunction
+     * @return {this}
+     */
+    validation (validationFunction) {
+
+        if (kindOf(validationFunction) !== 'function') {
+            throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
+                method: 'validation',
+                arg: 'validationFunction',
+                type: 'function'
+            });
+        }
+
+        this._validation = validationFunction;
+
+        return this;
     }
 
     /**

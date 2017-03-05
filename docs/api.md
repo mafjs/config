@@ -80,6 +80,8 @@ set validation function
 
 in `validationFunction` config can be modified, convert param types or etc.
 
+throws `ConfigError code = INVALID_ARGS` if validationFunction is not a function
+
 return `this`
 
 **Example**

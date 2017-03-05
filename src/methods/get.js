@@ -1,11 +1,22 @@
 var _get = require('lodash.get');
-var _clone = require('lodash.clonedeep');
+
+// var _clone = require('lodash.clonedeep');
 
 var kindOf = require('../modules/kind-of');
 
 var ConfigError = require('../Error');
 
 var _in = require('./_in');
+
+var _clone = function (value) {
+    var valueType = kindOf(value);
+
+    if (_in(['object', 'array'], valueType)) {
+        return JSON.parse(JSON.stringify(value));
+    }
+
+    return value;
+};
 
 module.exports = function (config, name, defaultValue) {
 

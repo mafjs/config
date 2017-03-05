@@ -61,29 +61,57 @@ t.test('base', function (t) {
         t.end();
     });
 
-    t.test('should call lodash.clonedeep for cloning returned value', function (t) {
+    t.test('should clone returned value', function (t) {
+
+        var returnedValue = {
+            a: 1
+        };
+
         var getMock = function (/*object, name, defaultValue */) {
-            return {a: 1};
+            return returnedValue;
         };
 
         getMock['@globalRequire'] = true;
 
-        var cloneMock = function (value) {
-            t.same(value, {a: 1});
-            t.end();
-        };
-
-        cloneMock['@globalRequire'] = true;
 
         var config = createConfigStub();
 
         var get = proxyquire(root + '/package/methods/get', {
-            'lodash.get': getMock,
-            'lodash.clonedeep': cloneMock
+            'lodash.get': getMock
         });
 
-        get(config, 'test');
+        var value = get(config, 'test');
+
+        value.b = 2;
+
+        t.same(returnedValue, {a: 1});
+        t.same(value, {a: 1, b: 2});
+        t.end();
     });
+
+    // t.test('should call lodash.clonedeep for cloning returned value', function (t) {
+    //     var getMock = function (/*object, name, defaultValue */) {
+    //         return {a: 1};
+    //     };
+    //
+    //     getMock['@globalRequire'] = true;
+    //
+    //     var cloneMock = function (value) {
+    //         t.same(value, {a: 1});
+    //         t.end();
+    //     };
+    //
+    //     cloneMock['@globalRequire'] = true;
+    //
+    //     var config = createConfigStub();
+    //
+    //     var get = proxyquire(root + '/package/methods/get', {
+    //         'lodash.get': getMock,
+    //         'lodash.clonedeep': cloneMock
+    //     });
+    //
+    //     get(config, 'test');
+    // });
 
     t.end();
 

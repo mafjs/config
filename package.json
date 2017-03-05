@@ -41,7 +41,6 @@
     "tap": "10.x"
   },
   "dependencies": {
-    "lodash.clonedeep": "4.5.x",
     "lodash.get": "4.4.x",
     "lodash.set": "4.3.x",
     "maf-error": "0.9.x"

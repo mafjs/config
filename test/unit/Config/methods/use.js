@@ -79,17 +79,47 @@ t.test('#use recieve plugin type', function (t) {
         use(config, Plugin, {a: 1});
     });
 
-    t.test('#use should throw error if plugin interface invalid', function (t) {
+    t.test('#use should throw error INVALID_PLUGIN_TYPE if plugin type undefined', function (t) {
         var config = createConfigStub();
 
-        var invalidPlugins = [{}];
+        var invalidPlugins = [];
 
         var PluginWithoutType = function () {};
 
         invalidPlugins.push(PluginWithoutType);
 
+        var count = 0;
+
+        var done = function () {
+            count++;
+            if (count === invalidPlugins.length) {
+                t.end();
+            }
+        };
+
+        for (var i in invalidPlugins) {
+            var plugin = invalidPlugins[i];
+
+            try {
+                use(config, plugin);
+                t.threw(new Error('no error thrown for invalid plugin type'));
+            } catch (error) {
+                t.ok(error instanceof ConfigError);
+                t.equal(error.code, ConfigError.CODES.INVALID_PLUGIN_TYPE);
+                done();
+            }
+
+        }
+    });
+
+    t.test('#use should throw error INVALID_PLUGIN if plugin interface invalid', function (t) {
+        var config = createConfigStub();
+
+        var invalidPlugins = [];
+
         var PluginWithoutName = function () {
-            this.type = 'recieve';
+            this.type = 'receive';
+            this.name = 'test';
         };
 
         invalidPlugins.push(PluginWithoutName);
@@ -104,6 +134,7 @@ t.test('#use recieve plugin type', function (t) {
 
             var Plugin = function () {
                 this.type = 'receive';
+                this.name = 'test_' + methods.join('_');
             };
 
             for (var i in methods) {

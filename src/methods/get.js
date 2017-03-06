@@ -61,6 +61,7 @@ module.exports = function (config, name, defaultValue) {
         value = config._data;
         config._debug('get: name == \'.\' return full config object');
     } else {
+        config._debug('get: call lodash.get ' + name);
         value = _get(config._data, name, defaultValue);
     }
 

@@ -65,7 +65,7 @@ get config param
 
 return param value or defaultValue if not exists
 
-return value cloned
+returned value deep cloned, if object or array
 
 use `config.get('.')` if need to get all config object
 
@@ -95,9 +95,9 @@ config.validation(function (raw) {
     return new Promise(function (resolve, reject) {
         // validate and convert config param
 
-        var config = validateAndConvert(raw);
+        var valid = validateAndConvert(raw);
 
-        resolve(raw);
+        resolve(valid);
     });
 
 })

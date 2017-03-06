@@ -4,16 +4,16 @@
     - [`constructor ([logger])`](#constructor-logger)
     - [`setImmutable (flag)`](#setimmutable-flag)
     - [`set (name, value)`](#set-name-value)
-    - [`get (name, [defaultValue = null])`](#get-name-defaultvalue--null)
+    - [`get (name, [defaultValue = undefined])`](#get-name-defaultvalue--undefined)
     - [`isValid ()`](#isvalid-)
     - [`validation (validationFunction)`](#validation-validationfunction)
     - [`validate ()`](#validate-)
-    - [`receive ())`](#receive-)
+    - [`receive ()`](#receive-)
     - [`init ()`](#init-)
-    - [`use (plugin)`](#use-plugin)
+    - [`use (plugin, [options])`](#use-plugin-options)
     - [`from (sourcepath, [to = '.'])`](#from-sourcepath-to)
 - [ConfigError](#configerror)
-    - [error codes](error-codes)
+    - [error codes](#error-codes)
 
 ## Config
 
@@ -49,6 +49,7 @@ return `this`
 use `config.set('.', value)` if need to set all config object
 
 throws `ConfigError code = IMMUTABLE`, if config set immutable
+
 throws `ConfigError code = INVALID_ARGS` if some args in function invalid
 
 if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271
@@ -110,6 +111,7 @@ call validationFunction and apply config
 return `Promise`
 
 throws `ConfigError, code = INVALID_DATA` if raw config data invalid
+
 throws `ConfigError, code = INVALID_VALIDATION_FUNCTION` if validation function return not Promise
 
 
@@ -162,160 +164,17 @@ no any config source types supported by default, use `use` method and add config
 return `this`
 
 
-<!-- ### `part (filepath, [pathInConfig])`
-
-set path to file config part
-
-- `filepath` - String. Path to config file part. If filename contains dots it will be used as dot-separated path to param (see example below)
-- `pathInConfig` - String. Optional. dot-separated path to param in config (see lodash.set)
-
-By default key in config will be filename without extension
-
-no any config file types supported by default, use `use` method and add config plugin for your file type
-
-return `this`
-
-**Examples**
-
-#### /etc/mongo-db.json
-
-```json
-{
-    "host": null,
-    "port": 27017
-}
-```
-
-
-```js
-
-config.part('/etc/mongo-db.json');
-
-config.init()
-    .then(() => {
-        var fullConfig = config.get('.');
-
-        // fullConfig =
-        {
-            db: {
-                host: null,
-                port: 27017
-            }
-        }
-    })
-    // ...
-
-// OR
-
-config.part('/etc/db.mongo.json');
-
-config.init()
-    .then(() => {
-        var fullConfig = config.get('.');
-
-        // fullConfig =
-        {
-            db: {
-                mongo: {
-                    host: null,
-                    port: 27017
-                }
-            }
-
-        }
-    })
-
-
-// OR
-
-
-config.part('/etc/mongo-db.json', 'mongoDb');
-
-config.init()
-    .then(() => {
-        var fullConfig = config.get('.');
-
-        // fullConfig =
-        {
-            mongoDb: {
-                host: null,
-                port: 27017
-            }
-        }
-    })
-    // ...
-
-```
-
-### `parts (configParts)`
-
-set paths to config parts
-
-- `configParts` - Object[String] or Array[String]. Paths to config parts
-
-For Object
-
-object key can be dot-separated path to param in config (@see lodash.set)
-
-value of key should be config part path
-
-For Array
-
-items should contain config part path
-
-If file item contains dots it will be used as dot-separated path to param (see example below)
-
-no any config file types supported by default, use `use` method and add config plugin for your file type
-
-return `this`
-
-if your config part filenames should be config keys without modifications use Array
-
-```js
-config.parts([
-    '/etc/db.json',
-    '/etc/browserVersions.json'
-]);
-
-config.init()
-    .then(() => {
-        config.get('db');
-        config.get('browserVersions');
-    })
-```
-
-if your need custom config keys for every part
-
-```js
-
-config.parts({
-    'db.mongo': '/etc/mongo-db.json',
-    browserVersions: '/etc/browser-versions.json'
-});
-
-config.init()
-    .then(() => {
-        var fullConfig = config.get('.');
-
-        // fullConfig =
-        {
-            db: {
-                mongo: {
-                    // ...
-                }
-            },
-            browserVersions: {
-                // ..
-            }
-        }
-    })
-``` -->
-
-
-
 ## ConfigError
 
 ### error codes
 
-- IMMUTABLE - throw if try to modify immutable config
+- INVALID_LOGGER - logger without debug method passed in constructor
+- INVALID_VALIDATION_FUNCTION - validation fucntion should return Promise
+- INVALID_ARGS - invalid args passed to method, see error.message for details
 - INVALID_DATA   - validation fails
+- INVALID_PLUGIN - plugin has invalid interface
+- INVALID_PLUGIN_TYPE - unknown plugin type
+- INVALID_PLUGIN_READ - plugin read method should return Promise
+- IMMUTABLE - throw if try to modify immutable config
+- UNKNOWN_SOURCE_TYPE - no plugin for sourcepath
+- FAILED_TO_READ_SOURCE - error when reading sourcepath

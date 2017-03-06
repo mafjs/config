@@ -15,6 +15,13 @@ plugin class should implement interface
 Instance property. String
 
 
+### `name`
+
+String. Required
+
+uniq name of plugin, name from package.json
+
+
 ### `constructor ([logger])`
 
 - `logger` - Logger. Optional. if passed, should have debug method
@@ -29,22 +36,22 @@ return `Promise`
 
 
 
-### `isMatch (filepath)`
+### `isMatch (sourcepath)`
 
-check that filepath processed by plugin
+check that sourcepath processed by plugin
 
-- `filepath` - String. path to config
+- `sourcepath` - String. path to config
 
 return `Promise`
 
 Promise should resolve `Boolean`
 
 
-### `read (filepath)`
+### `read (sourcepath)`
 
 read config
 
-- `filepath` - String. path to config
+- `sourcepath` - String. path to config
 
 return `Promise`
 

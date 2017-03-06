@@ -146,6 +146,31 @@ class Config {
     }
 
     /**
+     * receive and validate config
+     *
+     * @return {Promise}
+     */
+    init () {
+
+        return new Promise((resolve, reject) => {
+            this._debug('init: call');
+
+            this.receive()
+                .then(() => {
+                    return this.validate();
+                })
+                .then(() => {
+                    this._debug('init: done');
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+
+    }
+
+    /**
      * validate logger
      *
      * @private

@@ -9,6 +9,8 @@ var validate = require('./methods/validate');
 var use = require('./methods/use');
 var from = require('./methods/from');
 var receive = require('./methods/receive');
+var getRaw = require('./methods/getRaw');
+var setRaw = require('./methods/setRaw');
 
 class Config {
 
@@ -72,6 +74,29 @@ class Config {
      */
     get (name, defaultValue) {
         return get(this, name, defaultValue);
+    }
+
+    /**
+     * set raw config param
+     *
+     * @param {String|Array} name
+     * @param {*} value
+     * @return {this}
+     */
+    setRaw (name, value) {
+        return setRaw(this, name, value);
+    }
+
+    /**
+     * get raw config param
+     * returned value NOT cloned
+     *
+     * @param {String|Array} name
+     * @param {*} defaultValue
+     * @return {*}
+     */
+    getRaw (name, defaultValue) {
+        return getRaw(this, name, defaultValue);
     }
 
     /**

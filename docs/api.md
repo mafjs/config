@@ -5,6 +5,8 @@
     - [`setImmutable (flag)`](#setimmutable-flag)
     - [`set (name, value)`](#set-name-value)
     - [`get (name, [defaultValue = undefined])`](#get-name-defaultvalue--undefined)
+    - [`setRaw (name, value)`](#setraw-name-value)
+    - [`getRaw (name, [defaultValue = undefined])`](#getraw-name-defaultvalue--undefined)
     - [`isValid ()`](#isvalid-)
     - [`validation (validationFunction)`](#validation-validationfunction)
     - [`validate ()`](#validate-)
@@ -73,6 +75,47 @@ throws `ConfigError code = INVALID_ARGS` if some args in function invalid
 
 if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271)
 
+
+### `setRaw (name, value)`
+
+set raw config value
+
+since `0.2.0`
+
+raw value set as is
+
+- `name` - String. dot-delimeted path to param (see lodash.set)
+- `value` - *
+
+return `this`
+
+use `config.setRaw('.', value)` if need to set all config object
+
+throws `ConfigError code = IMMUTABLE`, if config set immutable
+
+throws `ConfigError code = INVALID_ARGS` if some args in function invalid
+
+if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271
+
+
+### `getRaw (name, [defaultValue = undefined])`
+
+get raw config param
+
+since `0.2.0`
+
+- `name` - String. dot-delimeted path to param (see lodash.get)
+- `defaultValue = undefined` - *
+
+return raw param value or defaultValue if not exists
+
+returned value NOT cloned. You got link to object, if getRaw object
+
+use `config.getRaw('.')` if need to get all config object
+
+throws `ConfigError code = INVALID_ARGS` if some args in function invalid
+
+if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271)
 
 
 ### `validation (validationFunction)`

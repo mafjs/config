@@ -7,6 +7,7 @@
     - [`get (name, [defaultValue = undefined])`](#get-name-defaultvalue--undefined)
     - [`setRaw (name, value)`](#setraw-name-value)
     - [`getRaw (name, [defaultValue = undefined])`](#getraw-name-defaultvalue--undefined)
+    - [`mergeRaw (source)`](#mergeraw-source)
     - [`isValid ()`](#isvalid-)
     - [`validation (validationFunction)`](#validation-validationfunction)
     - [`validate ()`](#validate-)
@@ -23,7 +24,7 @@
 
 ### `constructor ([logger])`
 
-- `logger` - Logger. optional. if passed, should have debug method
+- `logger` - Logger. optional. if passed, should have debug and trace methods
 
 
 
@@ -116,6 +117,17 @@ use `config.getRaw('.')` if need to get all config object
 throws `ConfigError code = INVALID_ARGS` if some args in function invalid
 
 if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271)
+
+
+### `mergeRaw (source)`
+
+merge config with object config
+
+- `source` - Object|Array.
+
+return `this`
+
+throws `ConfigError code = INVALID_ARGS` if some args in function invalid
 
 
 ### `validation (validationFunction)`

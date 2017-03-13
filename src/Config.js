@@ -211,6 +211,10 @@ class Config {
             throw new ConfigError(ConfigError.CODES.INVALID_LOGGER);
         }
 
+        if (typeof logger.trace !== 'function') {
+            throw new ConfigError(ConfigError.CODES.INVALID_LOGGER);
+        }
+
         return logger;
     }
 
@@ -225,6 +229,20 @@ class Config {
             typeof this._logger.debug === 'function'
         ) {
             this._logger.debug.apply(this._logger, arguments);
+        }
+    }
+
+    /* istanbul ignore next */
+    /**
+     * @private
+     */
+    _trace () {
+        if (
+            this._logger &&
+            this._logger.trace &&
+            typeof this._logger.trace === 'function'
+        ) {
+            this._logger.trace.apply(this._logger, arguments);
         }
     }
 }

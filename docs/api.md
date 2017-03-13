@@ -121,7 +121,7 @@ if you need dots in param names - set name param as Array, here [example](https:
 
 ### `mergeRaw (source)`
 
-merge config with object config
+merge config with new data object
 
 - `source` - Object|Array.
 

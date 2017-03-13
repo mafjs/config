@@ -11,6 +11,7 @@ var from = require('./methods/from');
 var receive = require('./methods/receive');
 var getRaw = require('./methods/getRaw');
 var setRaw = require('./methods/setRaw');
+var mergeRaw = require('./methods/mergeRaw');
 
 class Config {
 
@@ -97,6 +98,16 @@ class Config {
      */
     getRaw (name, defaultValue) {
         return getRaw(this, name, defaultValue);
+    }
+
+    /**
+     * merge raw data
+     *
+     * @param {Object|Array} source
+     * @return {this}
+     */
+    mergeRaw (source) {
+        return mergeRaw(this, source);
     }
 
     /**

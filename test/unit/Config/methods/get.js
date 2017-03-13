@@ -39,16 +39,12 @@ t.test('base', function (t) {
 
 
     t.test('should return undefined if no param in config and no defaultValue set', function (t) {
-        var mock = function (object, name, defaultValue) {
-            return defaultValue;
-        };
-
-        mock['@globalRequire'] = true;
-
         var config = createConfigStub();
 
         var get = proxyquire(root + '/package/methods/get', {
-            'lodash.get': mock
+            'lodash.get': function (object, name, defaultValue) {
+                return defaultValue;
+            }
         });
 
         var value = get(config, 'test');
@@ -61,16 +57,13 @@ t.test('base', function (t) {
 
 
     t.test('should return param value, if config has param', function (t) {
-        var mock = function (/*object, name, defaultValue */) {
-            return 'paramValue';
-        };
-
-        mock['@globalRequire'] = true;
 
         var config = createConfigStub();
 
         var get = proxyquire(root + '/package/methods/get', {
-            'lodash.get': mock
+            'lodash.get': function (/*object, name, defaultValue */) {
+                return 'paramValue';
+            }
         });
 
         var value = get(config, 'test');
@@ -89,17 +82,12 @@ t.test('base', function (t) {
             }
         };
 
-        var getMock = function (/*object, name, defaultValue */) {
-            return returnedValue;
-        };
-
-        getMock['@globalRequire'] = true;
-
-
         var config = createConfigStub();
 
         var get = proxyquire(root + '/package/methods/get', {
-            'lodash.get': getMock
+            'lodash.get': function (/*object, name, defaultValue */) {
+                return returnedValue;
+            }
         });
 
         var value = get(config, 'test');
@@ -126,30 +114,6 @@ t.test('base', function (t) {
         t.end();
     });
 
-    // t.test('should call lodash.clonedeep for cloning returned value', function (t) {
-    //     var getMock = function (/*object, name, defaultValue */) {
-    //         return {a: 1};
-    //     };
-    //
-    //     getMock['@globalRequire'] = true;
-    //
-    //     var cloneMock = function (value) {
-    //         t.same(value, {a: 1});
-    //         t.end();
-    //     };
-    //
-    //     cloneMock['@globalRequire'] = true;
-    //
-    //     var config = createConfigStub();
-    //
-    //     var get = proxyquire(root + '/package/methods/get', {
-    //         'lodash.get': getMock,
-    //         'lodash.clonedeep': cloneMock
-    //     });
-    //
-    //     get(config, 'test');
-    // });
-
     t.end();
 
 });
@@ -163,16 +127,13 @@ t.test('base', function (t) {
 t.test('name arg', function (t) {
 
     t.test('should get without errors if name is string', function (t) {
-        var mock = function (/*object, name, defaultValue */) {
-            return 'paramValue';
-        };
-
-        mock['@globalRequire'] = true;
 
         var config = createConfigStub();
 
         var get = proxyquire(root + '/package/methods/get', {
-            'lodash.get': mock
+            'lodash.get': function (/*object, name, defaultValue */) {
+                return 'paramValue';
+            }
         });
 
         var value = get(config, 'test');
@@ -186,16 +147,13 @@ t.test('name arg', function (t) {
 
 
     t.test('should get without errors if name is array', function (t) {
-        var mock = function (/*object, name, defaultValue */) {
-            return 'paramValue';
-        };
-
-        mock['@globalRequire'] = true;
 
         var config = createConfigStub();
 
         var get = proxyquire(root + '/package/methods/get', {
-            'lodash.get': mock
+            'lodash.get': function (/*object, name, defaultValue */) {
+                return 'paramValue';
+            }
         });
 
         var value = get(config, ['test.a']);
@@ -263,16 +221,12 @@ t.test('defaultValue argument', function (t) {
 
 
     t.test('should return defaultValue if no param in config and defaultValue defined', function (t) {
-        var mock = function (object, name, defaultValue) {
-            return defaultValue;
-        };
-
-        mock['@globalRequire'] = true;
-
         var config = createConfigStub();
 
         var get = proxyquire(root + '/package/methods/get', {
-            'lodash.get': mock
+            'lodash.get': function (object, name, defaultValue) {
+                return defaultValue;
+            }
         });
 
         var value = get(config, 'test', 100500);
@@ -284,13 +238,6 @@ t.test('defaultValue argument', function (t) {
 
 
     t.test('should get without errors if default value valid', function (t) {
-
-        var mock = function (object, name, defaultValue) {
-            return defaultValue;
-        };
-
-        mock['@globalRequire'] = true;
-
 
         var config = createConfigStub();
 
@@ -319,13 +266,6 @@ t.test('defaultValue argument', function (t) {
 
 
     t.test('should throw error if default value invalid', function (t) {
-
-        var mock = function (object, name, defaultValue) {
-            return defaultValue;
-        };
-
-        mock['@globalRequire'] = true;
-
 
         var config = createConfigStub();
 

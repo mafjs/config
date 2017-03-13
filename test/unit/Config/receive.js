@@ -4,14 +4,10 @@ var proxyquire = require('proxyquire');
 
 t.test('should call receive method function', function (t) {
 
-    var mock = function () {
-        t.end();
-    };
-
-    mock['@globalRequire'] = true;
-
     var Config = proxyquire('../../../package/Config.js', {
-        './methods/receive': mock
+        './methods/receive': function () {
+            t.end();
+        }
     });
 
     var config = new Config();

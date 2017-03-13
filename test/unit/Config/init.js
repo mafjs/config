@@ -6,34 +6,25 @@ t.test('#init should call receive and validate methods', function (t) {
 
     var receiveCalled = false;
 
-    var receiveMock = function () {
-
-        return new Promise((resolve) => {
-            receiveCalled = true;
-            resolve();
-        });
-
-    };
-
-    receiveMock['@globalRequire'] = true;
-
     var validateCalled = false;
 
-    var validateMock = function () {
-
-        return new Promise(function (resolve) {
-            validateCalled = true;
-            resolve();
-        });
-
-    };
-
-    validateMock['@globalRequire'] = true;
-
-
     var Config = proxyquire('../../../package/Config.js', {
-        './methods/receive': receiveMock,
-        './methods/validate': validateMock
+        './methods/receive': function () {
+
+            return new Promise((resolve) => {
+                receiveCalled = true;
+                resolve();
+            });
+
+        },
+        './methods/validate': function () {
+
+            return new Promise(function (resolve) {
+                validateCalled = true;
+                resolve();
+            });
+
+        }
     });
 
     var config = new Config();
@@ -54,31 +45,22 @@ t.test('#init should call receive and validate methods', function (t) {
 t.test('#init should reject if receive rejected', function (t) {
     var receiveCalled = false;
 
-    var receiveMock = function () {
-
-        return new Promise((resolve, reject) => {
-            receiveCalled = true;
-            reject(new Error('receive rejected'));
-        });
-
-    };
-
-    receiveMock['@globalRequire'] = true;
-
-    var validateMock = function () {
-
-        return new Promise(function (resolve) {
-            resolve();
-        });
-
-    };
-
-    validateMock['@globalRequire'] = true;
-
-
     var Config = proxyquire('../../../package/Config.js', {
-        './methods/receive': receiveMock,
-        './methods/validate': validateMock
+        './methods/receive': function () {
+
+            return new Promise((resolve, reject) => {
+                receiveCalled = true;
+                reject(new Error('receive rejected'));
+            });
+
+        },
+        './methods/validate': function () {
+
+            return new Promise(function (resolve) {
+                resolve();
+            });
+
+        }
     });
 
     var config = new Config();
@@ -97,33 +79,25 @@ t.test('#init should reject if receive rejected', function (t) {
 
 t.test('#init should reject if validate rejected', function (t) {
 
-    var receiveMock = function () {
-
-        return new Promise((resolve) => {
-            resolve();
-        });
-
-    };
-
-    receiveMock['@globalRequire'] = true;
-
     var validateCalled = false;
-
-    var validateMock = function () {
-
-        return new Promise(function (resolve, reject) {
-            validateCalled = true;
-            reject(new Error('validate rejected'));
-        });
-
-    };
-
-    validateMock['@globalRequire'] = true;
 
 
     var Config = proxyquire('../../../package/Config.js', {
-        './methods/receive': receiveMock,
-        './methods/validate': validateMock
+        './methods/receive': function () {
+
+            return new Promise((resolve) => {
+                resolve();
+            });
+
+        },
+        './methods/validate': function () {
+
+            return new Promise(function (resolve, reject) {
+                validateCalled = true;
+                reject(new Error('validate rejected'));
+            });
+
+        }
     });
 
     var config = new Config();

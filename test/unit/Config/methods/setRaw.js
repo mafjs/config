@@ -31,17 +31,13 @@ t.test('base', function (t) {
 
     t.test('should set null without errors', function (t) {
 
-        var mock = function (object, name, value) {
-            t.same(name, 'null');
-            t.same(value, null);
-            t.end();
-        };
-
-        mock['@globalRequire'] = true;
-
 
         var set = proxyquire(root + '/package/methods/setRaw', {
-            'lodash.set': mock
+            'lodash.set': function (object, name, value) {
+                t.same(name, 'null');
+                t.same(value, null);
+                t.end();
+            }
         });
 
         var config = createConfigStub();
@@ -75,17 +71,12 @@ t.test('base', function (t) {
 
     t.test('should set number without errors', function (t) {
 
-        var mock = function (object, name, value) {
-            t.same(name, 'number');
-            t.same(value, 100500);
-            t.end();
-        };
-
-        mock['@globalRequire'] = true;
-
-
         var set = proxyquire(root + '/package/methods/setRaw', {
-            'lodash.set': mock
+            'lodash.set': function (object, name, value) {
+                t.same(name, 'number');
+                t.same(value, 100500);
+                t.end();
+            }
         });
 
         var config = createConfigStub();
@@ -97,17 +88,13 @@ t.test('base', function (t) {
 
     t.test('should set array without errors', function (t) {
 
-        var mock = function (object, name, value) {
-            t.same(name, 'array');
-            t.same(value, [1, 2, 3]);
-            t.end();
-        };
-
-        mock['@globalRequire'] = true;
-
 
         var set = proxyquire(root + '/package/methods/setRaw', {
-            'lodash.set': mock
+            'lodash.set': function (object, name, value) {
+                t.same(name, 'array');
+                t.same(value, [1, 2, 3]);
+                t.end();
+            }
         });
 
         var config = createConfigStub();
@@ -119,17 +106,12 @@ t.test('base', function (t) {
 
     t.test('should set object without errors', function (t) {
 
-        var mock = function (object, name, value) {
-            t.same(name, 'object');
-            t.same(value, {a: 1, b: 2, c: {d: 3}});
-            t.end();
-        };
-
-        mock['@globalRequire'] = true;
-
-
         var set = proxyquire(root + '/package/methods/setRaw', {
-            'lodash.set': mock
+            'lodash.set': function (object, name, value) {
+                t.same(name, 'object');
+                t.same(value, {a: 1, b: 2, c: {d: 3}});
+                t.end();
+            }
         });
 
         var config = createConfigStub();
@@ -141,17 +123,12 @@ t.test('base', function (t) {
 
     t.test('should set boolean without errors', function (t) {
 
-        var mock = function (object, name, value) {
-            t.same(name, 'boolean');
-            t.same(value, true);
-            t.end();
-        };
-
-        mock['@globalRequire'] = true;
-
-
         var set = proxyquire(root + '/package/methods/setRaw', {
-            'lodash.set': mock
+            'lodash.set': function (object, name, value) {
+                t.same(name, 'boolean');
+                t.same(value, true);
+                t.end();
+            }
         });
 
         var config = createConfigStub();
@@ -200,17 +177,13 @@ t.test('base', function (t) {
 t.test('name arg', function (t) {
 
     t.test('should set value if name is array', function (t) {
-        var mock = function (object, name, value) {
-            t.same(name, ['test.a']);
-            t.same(value, {a: 1, b: 2, c: {d: 3}});
-            t.end();
-        };
-
-        mock['@globalRequire'] = true;
-
 
         var set = proxyquire(root + '/package/methods/setRaw', {
-            'lodash.set': mock
+            'lodash.set': function (object, name, value) {
+                t.same(name, ['test.a']);
+                t.same(value, {a: 1, b: 2, c: {d: 3}});
+                t.end();
+            }
         });
 
         var config = createConfigStub();

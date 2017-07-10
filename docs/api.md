@@ -55,7 +55,7 @@ throws `ConfigError code = IMMUTABLE`, if config set immutable
 
 throws `ConfigError code = INVALID_ARGS` if some args in function invalid
 
-if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271
+if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271)
 
 
 
@@ -96,7 +96,7 @@ throws `ConfigError code = IMMUTABLE`, if config set immutable
 
 throws `ConfigError code = INVALID_ARGS` if some args in function invalid
 
-if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271
+if you need dots in param names - set name param as Array, here [example](https://github.com/lodash/lodash/issues/1637#issuecomment-156258271)
 
 
 ### `getRaw (name, [defaultValue = undefined])`
@@ -120,6 +120,8 @@ if you need dots in param names - set name param as Array, here [example](https:
 
 
 ### `mergeRaw (source)`
+
+since `0.3.0`
 
 merge config with new data object
 
@@ -224,7 +226,7 @@ return `this`
 ### error codes
 
 - INVALID_LOGGER - logger without debug method passed in constructor
-- INVALID_VALIDATION_FUNCTION - validation fucntion should return Promise
+- INVALID_VALIDATION_FUNCTION - validation function should return Promise
 - INVALID_ARGS - invalid args passed to method, see error.message for details
 - INVALID_DATA   - validation fails
 - INVALID_PLUGIN - plugin has invalid interface

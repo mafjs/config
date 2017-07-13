@@ -3,6 +3,7 @@
 - [Config](#config)
     - [`constructor ([logger])`](#constructor-logger)
     - [`setImmutable (flag)`](#setimmutable-flag)
+    - [`isImmutable ()`](#isimmutable)
     - [`set (name, value)`](#set-name-value)
     - [`get (name, [defaultValue = undefined])`](#get-name-defaultvalue--undefined)
     - [`setRaw (name, value)`](#setraw-name-value)
@@ -15,6 +16,7 @@
     - [`init ()`](#init-)
     - [`use (plugin, [options])`](#use-plugin-options)
     - [`from (sourcepath, [to = '.'])`](#from-sourcepath-to)
+    - [`clone ([name])`](#clone-name)
 - [ConfigError](#configerror)
     - [error codes](#error-codes)
 
@@ -37,6 +39,14 @@ by default config **muttable** - changes allowed
 - `flag` - Boolean. true - config immutable, false - not
 
 return `this`
+
+
+
+### `isImmutable ()`
+
+is config immutable
+
+return `Boolean`
 
 
 
@@ -219,6 +229,20 @@ set path to config source
 no any config source types supported by default, use `use` method and add config plugin for your source type
 
 return `this`
+
+
+
+### `clone ([name])`
+
+clone config fully or partly by sourcepath
+
+- `name` - String. dot-delimeted path to param (see lodash.get), if clone full config - name may be omitted
+
+if parent config immutable, cloned config will be immutable too
+
+in new config has no validation from parent config
+
+return `Config instance`
 
 
 ## ConfigError

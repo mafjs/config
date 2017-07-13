@@ -56,6 +56,15 @@ class Config {
     }
 
     /**
+     * is config immutable
+     *
+     * @return {Boolean}
+     */
+    isImmutable () {
+        return this._immutable;
+    }
+
+    /**
      * set config param
      *
      * @param {String|Array} name
@@ -204,6 +213,28 @@ class Config {
                 });
         });
 
+    }
+
+    /**
+     * clone config
+     *
+     * @param {?String} name
+     * @return {Config}
+     */
+    clone (name) {
+        if (!name) {
+            name = '.';
+        }
+
+        var data = this.get(name);
+
+        var newConfig = new Config(this._logger);
+
+        newConfig.setRaw('.', data);
+
+        newConfig.setImmutable(this.isImmutable());
+
+        return newConfig;
     }
 
     /**

@@ -1,4 +1,4 @@
-# maf-config 0.x API
+# maf-config 1.x API
 
 - [Config](#config)
     - [`constructor ([logger])`](#constructor-logger)

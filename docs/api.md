@@ -3,7 +3,7 @@
 - [Config](#config)
     - [`constructor ([logger])`](#constructor-logger)
     - [`setImmutable (flag)`](#setimmutable-flag)
-    - [`isImmutable ()`](#isimmutable)
+    - [`isImmutable ()`](#isimmutable-)
     - [`set (name, value)`](#set-name-value)
     - [`get (name, [defaultValue = undefined])`](#get-name-defaultvalue--undefined)
     - [`setRaw (name, value)`](#setraw-name-value)

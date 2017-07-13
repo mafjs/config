@@ -1,7 +1,5 @@
 var t = require('tap');
 
-var proxyquire = require('proxyquire');
-
 var root = '../../../..';
 
 var ConfigError = require(root + '/package/Error.js');

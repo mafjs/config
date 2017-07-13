@@ -11,6 +11,7 @@ var toString = Object.prototype.toString;
  * @return {*} Native javascript type
  */
 
+// eslint-disable-next-line max-statements, complexity
 module.exports = function kindOf (val) {
   // primitivies
     if (typeof val === 'undefined') {

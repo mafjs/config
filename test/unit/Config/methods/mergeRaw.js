@@ -14,7 +14,7 @@ var createConfigStub = function () {
         _trace: function () {
             //
         },
-        setRaw: function (name, data) {
+        setRaw: function (/*name, data*/) {
             //
         }
     };

@@ -66,14 +66,14 @@ t.test('#init should reject if receive rejected', function (t) {
     var config = new Config();
 
     config.init()
-            .then(function () {
-                t.threw(new Error('should reject error'));
-            })
-            .catch(function (error) {
-                t.ok(receiveCalled);
-                t.equal(error.message, 'receive rejected');
-                t.end();
-            });
+        .then(function () {
+            t.threw(new Error('should reject error'));
+        })
+        .catch(function (error) {
+            t.ok(receiveCalled);
+            t.equal(error.message, 'receive rejected');
+            t.end();
+        });
 });
 
 
@@ -103,12 +103,12 @@ t.test('#init should reject if validate rejected', function (t) {
     var config = new Config();
 
     config.init()
-            .then(function () {
-                t.threw(new Error('should reject error'));
-            })
-            .catch(function (error) {
-                t.ok(validateCalled);
-                t.equal(error.message, 'validate rejected');
-                t.end();
-            });
+        .then(function () {
+            t.threw(new Error('should reject error'));
+        })
+        .catch(function (error) {
+            t.ok(validateCalled);
+            t.equal(error.message, 'validate rejected');
+            t.end();
+        });
 });

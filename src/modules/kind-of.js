@@ -13,7 +13,7 @@ var toString = Object.prototype.toString;
 
 // eslint-disable-next-line max-statements, complexity
 module.exports = function kindOf (val) {
-  // primitivies
+    // primitivies
     if (typeof val === 'undefined') {
         return 'undefined';
     }
@@ -30,17 +30,17 @@ module.exports = function kindOf (val) {
         return 'number';
     }
 
-  // functions
+    // functions
     if (typeof val === 'function' || val instanceof Function) {
         return 'function';
     }
 
-  // array
+    // array
     if (typeof Array.isArray !== 'undefined' && Array.isArray(val)) {
         return 'array';
     }
 
-  // check for instances of RegExp and Date before calling `toString`
+    // check for instances of RegExp and Date before calling `toString`
     if (val instanceof RegExp) {
         return 'regexp';
     }
@@ -48,7 +48,7 @@ module.exports = function kindOf (val) {
         return 'date';
     }
 
-  // other objects
+    // other objects
     var type = toString.call(val);
 
     if (type === '[object RegExp]') {
@@ -64,12 +64,12 @@ module.exports = function kindOf (val) {
         return 'error';
     }
 
-  // buffer
+    // buffer
     // if (typeof Buffer !== 'undefined' && isBuffer(val)) {
     //     return 'buffer';
     // }
 
-  // es6: Map, WeakMap, Set, WeakSet
+    // es6: Map, WeakMap, Set, WeakSet
     if (type === '[object Set]') {
         return 'set';
     }
@@ -86,7 +86,7 @@ module.exports = function kindOf (val) {
         return 'symbol';
     }
 
-  // typed arrays
+    // typed arrays
     if (type === '[object Int8Array]') {
         return 'int8array';
     }
@@ -115,6 +115,6 @@ module.exports = function kindOf (val) {
         return 'float64array';
     }
 
-  // must be a plain object
+    // must be a plain object
     return 'object';
 };

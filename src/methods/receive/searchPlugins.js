@@ -12,8 +12,8 @@ module.exports = function (config, ConfigError) {
 
         if (!plugin) {
             throw ConfigError
-                    .createError(ConfigError.CODES.UNKNOWN_SOURCE_TYPE)
-                    .bind({sourcepath: from.sourcepath});
+                .createError(ConfigError.CODES.UNKNOWN_SOURCE_TYPE)
+                .bind({sourcepath: from.sourcepath});
 
         }
 

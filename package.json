@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/mafjs/config#readme",
   "devDependencies": {
-    "@maf/eslint-config": "0.1.x",
+    "@maf/eslint-config": "0.2.x",
     "babel-cli": "6.x",
     "babel-eslint": "^7.2.3",
     "babel-plugin-istanbul": "4.x",

@@ -1,14 +1,14 @@
-module.exports = function (plugin, ConfigError) {
+module.exports = function(plugin, ConfigError) {
     // validate receive plugin interface
-    var props = {
+    let props = {
         'name': 'string',
         'init': 'function',
         'isMatch': 'function',
         'read': 'function'
     };
 
-    for (var name in props) {
-        var type = props[name];
+    Object.keys(props).forEach((name) => {
+        let type = props[name];
 
         if (typeof plugin[name] !== type) {
             throw ConfigError.createError(
@@ -16,5 +16,5 @@ module.exports = function (plugin, ConfigError) {
                 'maf-config: receive plugin type:  prop "' + name + '" is not ' + type
             );
         }
-    }
+    });
 };

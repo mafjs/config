@@ -1,26 +1,24 @@
-var t = require('tap');
+let t = require('tap');
 
-var root = '../../../..';
+let root = '../../../..';
 
-var ConfigError = require(root + '/package/Error.js');
+let ConfigError = require(root + '/package/Error.js');
 
-var use = require(root + '/package/methods/use');
+let use = require(root + '/package/methods/use');
 
-var createConfigStub = function () {
-
+let createConfigStub = function() {
     return {
         _data: {},
         _receivePlugins: [],
         _validatePlugin: null,
-        _debug: function () {
+        _debug: function() {
             // console.log.apply(console, arguments);
         }
     };
-
 };
 
-t.test('#use should throw error if plugin is not constructor', function (t) {
-    var config = createConfigStub();
+t.test('#use should throw error if plugin is not constructor', function(t) {
+    let config = createConfigStub();
 
     try {
         use(config, {});
@@ -29,27 +27,25 @@ t.test('#use should throw error if plugin is not constructor', function (t) {
         t.equal(error.code, ConfigError.CODES.INVALID_PLUGIN);
         t.end();
     }
-
 });
 
-t.test('#use recieve plugin type', function (t) {
+t.test('#use recieve plugin type', function(t) {
+    t.test('#use should add plugin without errors', function(t) {
+        let config = createConfigStub();
 
-    t.test('#use should add plugin without errors', function (t) {
-        var config = createConfigStub();
-
-        var Plugin = function (logger) {
+        let Plugin = function(logger) {
             this.type = 'receive';
             this.name = 'test';
             t.same(logger, config._logger);
         };
 
-        Plugin.prototype.init = function () {};
-        Plugin.prototype.isMatch = function () {};
-        Plugin.prototype.read = function () {};
+        Plugin.prototype.init = function() {};
+        Plugin.prototype.isMatch = function() {};
+        Plugin.prototype.read = function() {};
 
         t.equal(config._receivePlugins.length, 0);
 
-        var result = use(config, Plugin, {a: 1});
+        let result = use(config, Plugin, {a: 1});
 
         t.same(result, config);
 
@@ -58,45 +54,46 @@ t.test('#use recieve plugin type', function (t) {
         t.end();
     });
 
-    t.test('#use should pass options to init plugin method', function (t) {
-        var config = createConfigStub();
+    t.test('#use should pass options to init plugin method', function(t) {
+        let config = createConfigStub();
 
-        var Plugin = function (logger) {
+        let Plugin = function(logger) {
             this.type = 'receive';
             this.name = 'test';
             t.same(logger, config._logger);
         };
 
-        Plugin.prototype.init = function (options) {
+        Plugin.prototype.init = function(options) {
             t.same(options, {a: 1});
             t.end();
         };
-        Plugin.prototype.isMatch = function () {};
-        Plugin.prototype.read = function () {};
+        Plugin.prototype.isMatch = function() {};
+        Plugin.prototype.read = function() {};
 
         use(config, Plugin, {a: 1});
     });
 
-    t.test('#use should throw error INVALID_PLUGIN_TYPE if plugin type undefined', function (t) {
-        var config = createConfigStub();
+    t.test('#use should throw error INVALID_PLUGIN_TYPE if plugin type undefined', function(t) {
+        let config = createConfigStub();
 
-        var invalidPlugins = [];
+        let invalidPlugins = [];
 
-        var PluginWithoutType = function () {};
+        let PluginWithoutType = function() {};
 
         invalidPlugins.push(PluginWithoutType);
 
-        var count = 0;
+        let count = 0;
 
-        var done = function () {
+        let done = function() {
             count++;
             if (count === invalidPlugins.length) {
                 t.end();
             }
         };
 
-        for (var i in invalidPlugins) {
-            var plugin = invalidPlugins[i];
+        // eslint-disable-next-line guard-for-in
+        for (let i in invalidPlugins) {
+            let plugin = invalidPlugins[i];
 
             try {
                 use(config, plugin);
@@ -106,41 +103,39 @@ t.test('#use recieve plugin type', function (t) {
                 t.equal(error.code, ConfigError.CODES.INVALID_PLUGIN_TYPE);
                 done();
             }
-
         }
     });
 
-    t.test('#use should throw error INVALID_PLUGIN if plugin interface invalid', function (t) {
-        var config = createConfigStub();
+    t.test('#use should throw error INVALID_PLUGIN if plugin interface invalid', function(t) {
+        let config = createConfigStub();
 
-        var invalidPlugins = [];
+        let invalidPlugins = [];
 
-        var PluginWithoutName = function () {
+        let PluginWithoutName = function() {
             this.type = 'receive';
             this.name = 'test';
         };
 
         invalidPlugins.push(PluginWithoutName);
 
-        var PluginWithoutAnyMethods = function () {
+        let PluginWithoutAnyMethods = function() {
             this.type = 'receive';
         };
 
         invalidPlugins.push(PluginWithoutAnyMethods);
 
-        var createPlugin = function (methods) {
-
-            var Plugin = function () {
+        let createPlugin = function(methods) {
+            let Plugin = function() {
                 this.type = 'receive';
                 this.name = 'test_' + methods.join('_');
             };
 
-            for (var i in methods) {
-                Plugin.prototype[methods[i]] = function () {};
+            // eslint-disable-next-line guard-for-in
+            for (let i in methods) {
+                Plugin.prototype[methods[i]] = function() {};
             }
 
             return Plugin;
-
         };
 
         invalidPlugins.push(createPlugin(['init']));
@@ -148,17 +143,18 @@ t.test('#use recieve plugin type', function (t) {
         invalidPlugins.push(createPlugin(['init', 'read']));
 
 
-        var count = 0;
+        let count = 0;
 
-        var done = function () {
+        let done = function() {
             count++;
             if (count === invalidPlugins.length) {
                 t.end();
             }
         };
 
-        for (var i in invalidPlugins) {
-            var plugin = invalidPlugins[i];
+        // eslint-disable-next-line guard-for-in
+        for (let i in invalidPlugins) {
+            let plugin = invalidPlugins[i];
 
             try {
                 use(config, plugin);
@@ -168,7 +164,6 @@ t.test('#use recieve plugin type', function (t) {
                 t.equal(error.code, ConfigError.CODES.INVALID_PLUGIN);
                 done();
             }
-
         }
     });
 

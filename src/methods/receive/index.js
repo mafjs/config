@@ -1,12 +1,10 @@
-var ConfigError = require('../../Error');
+let ConfigError = require('../../Error');
 
-var searchPlugins = require('./searchPlugins');
-var read = require('./read');
+let searchPlugins = require('./searchPlugins');
+let read = require('./read');
 
-module.exports = function (config) {
-
+module.exports = function(config) {
     return new Promise((resolve, reject) => {
-
         config._debug('receive: start receive sources');
 
         if (config._from.length === 0) {
@@ -15,31 +13,26 @@ module.exports = function (config) {
         }
 
         // search plugin for sources
-        var founded = searchPlugins(config, ConfigError);
+        let founded = searchPlugins(config, ConfigError);
 
         // read sources
-        var promises = read(config, ConfigError, founded);
+        let promises = read(config, ConfigError, founded);
 
         Promise.all(promises)
-            .then(function (result) {
-
-                for (var i in founded) {
-                    var from = founded[i].from;
-                    var data = result[i];
-
+            .then(function(result) {
+                founded.forEach(({from}, i) => {
+                    const data = result[i];
                     config.set(from.to, data);
-                }
+                });
 
                 resolve();
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 // TODO get error data from error
                 reject(ConfigError.createError(
                     ConfigError.CODES.FAILED_TO_READ_SOURCE,
                     error
                 ));
             });
-
     });
-
 };

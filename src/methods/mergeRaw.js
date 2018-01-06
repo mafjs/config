@@ -1,15 +1,15 @@
-var _merge = require('lodash.merge');
+let _merge = require('lodash.merge');
 
-var kindOf = require('../modules/kind-of');
+let kindOf = require('../modules/kind-of');
 
-var ConfigError = require('../Error');
+let ConfigError = require('../Error');
 
-var _in = require('./_in');
+let _in = require('./_in');
 
-module.exports = function (config, source) {
+module.exports = function(config, source) {
     config._debug('mergeRaw: source = ', source);
 
-    var typeOfSource = kindOf(source);
+    let typeOfSource = kindOf(source);
 
     config._trace('mergeRaw: typeOf source = ', typeOfSource);
 
@@ -21,7 +21,7 @@ module.exports = function (config, source) {
         });
     }
 
-    var data = _merge(config._data, source);
+    let data = _merge(config._data, source);
 
     config.setRaw('.', data);
 

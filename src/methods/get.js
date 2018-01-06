@@ -1,15 +1,15 @@
-var _get = require('lodash.get');
+let _get = require('lodash.get');
 
 // var _clone = require('lodash.clonedeep');
 
-var kindOf = require('../modules/kind-of');
+let kindOf = require('../modules/kind-of');
 
-var ConfigError = require('../Error');
+let ConfigError = require('../Error');
 
-var _in = require('./_in');
+let _in = require('./_in');
 
-var _clone = function (value) {
-    var valueType = kindOf(value);
+let _clone = function(value) {
+    let valueType = kindOf(value);
 
     if (_in(['object', 'array'], valueType)) {
         return JSON.parse(JSON.stringify(value));
@@ -18,14 +18,13 @@ var _clone = function (value) {
     return value;
 };
 
-module.exports = function (config, name, defaultValue) {
-
+module.exports = function(config, name, defaultValue) {
     config._debug(
         'get: name = ', name,
         'defaultValue = ', defaultValue
     );
 
-    var typeOfName = kindOf(name);
+    let typeOfName = kindOf(name);
 
     config._debug('get: typeOf name = ', typeOfName);
 
@@ -41,11 +40,11 @@ module.exports = function (config, name, defaultValue) {
         name = name.trim();
     }
 
-    var typeOfDefaultValue = kindOf(defaultValue);
+    let typeOfDefaultValue = kindOf(defaultValue);
 
     config._debug('get: typeOf value = ', typeOfDefaultValue);
 
-    var valueTypes = ['undefined', 'null', 'array', 'string', 'number', 'object', 'boolean'];
+    let valueTypes = ['undefined', 'null', 'array', 'string', 'number', 'object', 'boolean'];
 
     if (_in(valueTypes, typeOfDefaultValue) === false) {
         throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
@@ -55,7 +54,7 @@ module.exports = function (config, name, defaultValue) {
         });
     }
 
-    var value;
+    let value;
 
     if (name === '.') {
         value = config._data;

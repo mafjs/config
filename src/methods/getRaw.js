@@ -1,19 +1,18 @@
-var _get = require('lodash.get');
+let _get = require('lodash.get');
 
-var kindOf = require('../modules/kind-of');
+let kindOf = require('../modules/kind-of');
 
-var ConfigError = require('../Error');
+let ConfigError = require('../Error');
 
-var _in = require('./_in');
+let _in = require('./_in');
 
-module.exports = function (config, name, defaultValue) {
-
+module.exports = function(config, name, defaultValue) {
     config._debug(
         'getRaw: name = ', name,
         'defaultValue = ', defaultValue
     );
 
-    var typeOfName = kindOf(name);
+    let typeOfName = kindOf(name);
 
     config._debug('getRaw: typeOf name = ', typeOfName);
 
@@ -29,11 +28,11 @@ module.exports = function (config, name, defaultValue) {
         name = name.trim();
     }
 
-    var typeOfDefaultValue = kindOf(defaultValue);
+    let typeOfDefaultValue = kindOf(defaultValue);
 
     config._debug('getRaw: typeOf value = ', typeOfDefaultValue);
 
-    var value;
+    let value;
 
     if (name === '.') {
         value = config._data;

@@ -1,31 +1,31 @@
-var t = require('tap');
+let t = require('tap');
 
-var Config = require('../../../package/Config.js');
+let Config = require('../../../package/Config.js');
 
-t.test('should clone full config', function (t) {
-    var config = new Config();
+t.test('should clone full config', function(t) {
+    let config = new Config();
 
-    var data = {
+    let data = {
         test: 100500
     };
 
     config.set('.', data);
 
-    var newConfig = config.clone();
+    let newConfig = config.clone();
 
     t.same(newConfig.get('.'), data);
 
-    var newConfig2 = config.clone('.');
+    let newConfig2 = config.clone('.');
 
     t.same(newConfig2.get('.'), data);
 
     t.end();
 });
 
-t.test('should clone config partly', function (t) {
-    var config = new Config();
+t.test('should clone config partly', function(t) {
+    let config = new Config();
 
-    var data = {
+    let data = {
         server: {
             host: null,
             port: 8080
@@ -37,9 +37,9 @@ t.test('should clone config partly', function (t) {
 
     config.set('.', data);
 
-    var serverConfig = config.clone('server');
+    let serverConfig = config.clone('server');
 
-    var restConfig = config.clone('rest');
+    let restConfig = config.clone('rest');
 
     t.same(serverConfig.get('.'), data.server);
     t.same(restConfig.get('.'), data.rest);
@@ -47,9 +47,8 @@ t.test('should clone config partly', function (t) {
     t.end();
 });
 
-t.test('should transfer immutable flag to cloned config', function (t) {
-
-    var config = new Config();
+t.test('should transfer immutable flag to cloned config', function(t) {
+    let config = new Config();
 
     config.set('.', {test: 100500});
 
@@ -57,7 +56,7 @@ t.test('should transfer immutable flag to cloned config', function (t) {
 
     t.true(config.isImmutable());
 
-    var newConfig = config.clone();
+    let newConfig = config.clone();
 
     t.true(newConfig.isImmutable());
 

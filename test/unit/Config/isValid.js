@@ -1,16 +1,15 @@
-var t = require('tap');
+let t = require('tap');
 
-var Config = require('../../../package/Config.js');
+let Config = require('../../../package/Config.js');
 
-t.test('#isValid should return valid state', function (t) {
-    var config = new Config();
+t.test('#isValid should return valid state', function(t) {
+    let config = new Config();
 
     t.notOk(config.isValid());
 
     return config.validate()
-        .then(function () {
+        .then(function() {
             t.ok(config.isValid());
             t.end();
         });
-
 });

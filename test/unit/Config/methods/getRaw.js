@@ -1,15 +1,15 @@
-var t = require('tap');
-var proxyquire = require('proxyquire');
+let t = require('tap');
+let proxyquire = require('proxyquire');
 
-var root = '../../../..';
+let root = '../../../..';
 
-var ConfigError = require(root + '/package/Error.js');
+let ConfigError = require(root + '/package/Error.js');
 
-var createConfigStub = function () {
+let createConfigStub = function() {
     return {
         _immutable: false,
         _data: {},
-        _debug: function () {
+        _debug: function() {
             // console.log.apply(console, arguments);
         }
     };
@@ -17,20 +17,18 @@ var createConfigStub = function () {
 
 
 // base tests
-t.test('base', function (t) {
-
-
-    t.test('should return full config object on get(\'.\')', function (t) {
-        var config = createConfigStub();
+t.test('base', function(t) {
+    t.test('should return full config object on get(\'.\')', function(t) {
+        let config = createConfigStub();
 
         config._data = {
             a: 1,
             b: 2
         };
 
-        var get = proxyquire(root + '/package/methods/getRaw', {});
+        let get = proxyquire(root + '/package/methods/getRaw', {});
 
-        var value = get(config, '.');
+        let value = get(config, '.');
 
         t.same(value, {a: 1, b: 2});
 
@@ -38,17 +36,16 @@ t.test('base', function (t) {
     });
 
 
-    t.test('should return undefined if no param in config and no defaultValue set', function (t) {
+    t.test('should return undefined if no param in config and no defaultValue set', function(t) {
+        let config = createConfigStub();
 
-        var config = createConfigStub();
-
-        var get = proxyquire(root + '/package/methods/getRaw', {
-            'lodash.get': function (object, name, defaultValue) {
+        let get = proxyquire(root + '/package/methods/getRaw', {
+            'lodash.get': function(object, name, defaultValue) {
                 return defaultValue;
             }
         });
 
-        var value = get(config, 'test');
+        let value = get(config, 'test');
 
         t.type(value, 'undefined');
 
@@ -56,41 +53,39 @@ t.test('base', function (t) {
     });
 
 
+    t.test('should return param value, if config has param', function(t) {
+        let config = createConfigStub();
 
-    t.test('should return param value, if config has param', function (t) {
-        var config = createConfigStub();
-
-        var get = proxyquire(root + '/package/methods/getRaw', {
-            'lodash.get': function (/*object, name, defaultValue */) {
+        let get = proxyquire(root + '/package/methods/getRaw', {
+            'lodash.get': function(/* object, name, defaultValue */) {
                 return 'paramValue';
             }
         });
 
-        var value = get(config, 'test');
+        let value = get(config, 'test');
 
         t.same(value, 'paramValue');
 
         t.end();
     });
 
-    t.test('should not clone returned value', function (t) {
-
-        var returnedValue = {
+    t.test('should not clone returned value', function(t) {
+        let returnedValue = {
             a: 1,
             b: {
                 c: 2
             }
         };
 
-        var config = createConfigStub();
+        let config = createConfigStub();
 
-        var get = proxyquire(root + '/package/methods/getRaw', {
-            'lodash.get': function (/*object, name, defaultValue */) {
+        let get = proxyquire(root + '/package/methods/getRaw', {
+            'lodash.get': function(/* object, name, defaultValue */) {
                 return returnedValue;
             }
         });
 
-        var value = get(config, 'test');
+        let value = get(config, 'test');
 
         value.d = 3;
         value.b.c = 100500;
@@ -117,48 +112,22 @@ t.test('base', function (t) {
     });
 
     t.end();
-
 });
-
-
-
 
 
 // name arg tests
 
-t.test('name arg', function (t) {
+t.test('name arg', function(t) {
+    t.test('should get without errors if name is string', function(t) {
+        let config = createConfigStub();
 
-    t.test('should get without errors if name is string', function (t) {
-
-        var config = createConfigStub();
-
-        var get = proxyquire(root + '/package/methods/getRaw', {
-            'lodash.get': function (/*object, name, defaultValue */) {
+        let get = proxyquire(root + '/package/methods/getRaw', {
+            'lodash.get': function(/* object, name, defaultValue */) {
                 return 'paramValue';
             }
         });
 
-        var value = get(config, 'test');
-
-        t.same(value, 'paramValue');
-
-        t.end();
-
-    });
-
-
-
-    t.test('should get without errors if name is array', function (t) {
-
-        var config = createConfigStub();
-
-        var get = proxyquire(root + '/package/methods/getRaw', {
-            'lodash.get': function (/*object, name, defaultValue */) {
-                return 'paramValue';
-            }
-        });
-
-        var value = get(config, ['test.a']);
+        let value = get(config, 'test');
 
         t.same(value, 'paramValue');
 
@@ -166,26 +135,42 @@ t.test('name arg', function (t) {
     });
 
 
+    t.test('should get without errors if name is array', function(t) {
+        let config = createConfigStub();
 
-    t.test('should throw error if name is not array or string', function (t) {
+        let get = proxyquire(root + '/package/methods/getRaw', {
+            'lodash.get': function(/* object, name, defaultValue */) {
+                return 'paramValue';
+            }
+        });
 
-        var config = createConfigStub();
+        let value = get(config, ['test.a']);
 
-        var types = [null, 100500, undefined, {a: 1}, function () {}];
+        t.same(value, 'paramValue');
 
-        var count = 0;
+        t.end();
+    });
 
-        var done = function () {
+
+    t.test('should throw error if name is not array or string', function(t) {
+        let config = createConfigStub();
+
+        let types = [null, 100500, undefined, {a: 1}, function() {}];
+
+        let count = 0;
+
+        let done = function() {
             count++;
             if (count === types.length) {
                 t.end();
             }
         };
 
-        var get = proxyquire(root + '/package/methods/getRaw', {});
+        let get = proxyquire(root + '/package/methods/getRaw', {});
 
-        for (var i in types) {
-            var type = types[i];
+        // eslint-disable-next-line guard-for-in
+        for (let i in types) {
+            let type = types[i];
 
             try {
                 get(config, type);
@@ -195,7 +180,6 @@ t.test('name arg', function (t) {
                 t.ok(error.code === ConfigError.CODES.INVALID_ARGS);
                 done();
             }
-
         }
     });
 
@@ -203,18 +187,15 @@ t.test('name arg', function (t) {
 });
 
 
-
-
 // defaultValue arg tests
 
-t.test('defaultValue argument', function (t) {
+t.test('defaultValue argument', function(t) {
+    t.test('should return undefined if no config param and defaultValue undefined', function(t) {
+        let config = createConfigStub();
 
-    t.test('should return undefined if no config param and defaultValue undefined', function (t) {
-        var config = createConfigStub();
+        let get = proxyquire(root + '/package/methods/getRaw', {});
 
-        var get = proxyquire(root + '/package/methods/getRaw', {});
-
-        var value = get(config, 'test');
+        let value = get(config, 'test');
 
         t.type(value, 'undefined');
 
@@ -222,17 +203,16 @@ t.test('defaultValue argument', function (t) {
     });
 
 
-    t.test('should return defaultValue if no param in config and defaultValue defined', function (t) {
+    t.test('should return defaultValue if no param in config and defaultValue defined', (t) => {
+        let config = createConfigStub();
 
-        var config = createConfigStub();
-
-        var get = proxyquire(root + '/package/methods/getRaw', {
-            'lodash.get': function (object, name, defaultValue) {
+        let get = proxyquire(root + '/package/methods/getRaw', {
+            'lodash.get': function(object, name, defaultValue) {
                 return defaultValue;
             }
         });
 
-        var value = get(config, 'test', 100500);
+        let value = get(config, 'test', 100500);
 
         t.same(value, 100500);
 
@@ -240,26 +220,26 @@ t.test('defaultValue argument', function (t) {
     });
 
 
-    t.test('should get without errors for any default value', function (t) {
-
-        var config = createConfigStub();
+    t.test('should get without errors for any default value', function(t) {
+        let config = createConfigStub();
 
         // var validTypes = ['undefined', 'null', 'array', 'string', 'number', 'object', 'boolean'];
-        var types = [undefined, null, [1, 2, 3], 'string', 100500, {a: 1}, true, function () {}];
+        let types = [undefined, null, [1, 2, 3], 'string', 100500, {a: 1}, true, function() {}];
 
-        var count = 0;
+        let count = 0;
 
-        var done = function () {
+        let done = function() {
             count++;
             if (count === types.length) {
                 t.end();
             }
         };
 
-        var get = proxyquire(root + '/package/methods/getRaw', {});
+        let get = proxyquire(root + '/package/methods/getRaw', {});
 
-        for (var i in types) {
-            var type = types[i];
+        // eslint-disable-next-line guard-for-in
+        for (let i in types) {
+            let type = types[i];
 
             t.same(get(config, 'name', type), type);
 

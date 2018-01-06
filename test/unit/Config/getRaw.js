@@ -1,32 +1,31 @@
-var t = require('tap');
+let t = require('tap');
 
-var proxyquire = require('proxyquire');
+let proxyquire = require('proxyquire');
 
 // var Config = require('../../../package/Config.js');
 
-t.test('should call get method function', function (t) {
-
-    var Config = proxyquire('../../../package/Config.js', {
-        './methods/getRaw': function (config, name, defaultValue) {
+t.test('should call get method function', function(t) {
+    let Config = proxyquire('../../../package/Config.js', {
+        './methods/getRaw': function(config, name, defaultValue) {
             t.same(name, '100');
             t.same(defaultValue, 500);
             t.end();
         }
     });
 
-    var config = new Config();
+    let config = new Config();
 
     config.getRaw('100', 500);
 });
 
-t.test('should return result of get method', function (t) {
-    var Config = proxyquire('../../../package/Config.js', {
-        './methods/getRaw': function (/* config , name, defaultValue */) {
+t.test('should return result of get method', function(t) {
+    let Config = proxyquire('../../../package/Config.js', {
+        './methods/getRaw': function(/* config , name, defaultValue */) {
             return {a: 1};
         }
     });
 
-    var config = new Config();
+    let config = new Config();
 
     t.same(config.getRaw('100', 500), {a: 1});
     t.end();

@@ -1,11 +1,10 @@
-var t = require('tap');
+let t = require('tap');
 
-var Config = require('../../../package/Config');
-var ConfigError = require('../../../package/Error');
+let Config = require('../../../package/Config');
+let ConfigError = require('../../../package/Error');
 
-t.test('created object should has Error property instanceof ConfigError', function (t) {
-
-    var config = new Config();
+t.test('created object should has Error property instanceof ConfigError', function(t) {
+    let config = new Config();
 
     t.same(config.Error, ConfigError);
 

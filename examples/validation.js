@@ -1,40 +1,39 @@
-var joi = require('joi');
+/* eslint-disable no-console */
 
-var Config = require(__dirname + '/../package/Config');
+let joi = require('joi');
 
-var config = new Config();
+let Config = require(__dirname + '/../package/Config');
+
+let config = new Config();
 
 
-config.validation(function (raw) {
-
-    return new Promise(function (resolve, reject) {
-
-        var schema = joi.object().required().keys({
+config.validation(function(raw) {
+    return new Promise(function(resolve, reject) {
+        let schema = joi.object().required().keys({
             host: joi.string().allow(null).required(),
             port: joi.number().required()
         });
 
-        joi.validate(raw, schema, {convert: true}, function (error, valid) {
+        joi.validate(raw, schema, {convert: true}, function(error, valid) {
             if (error) {
                 return reject(error);
             }
 
             resolve(valid);
         });
-
     });
-
 });
-
 
 
 config
     .set('.', {host: null, port: '80'})
     .setImmutable(true)
     .validate()
-    .then(function () {
+    .then(function() {
         console.log(config.get('.'));
     })
-    .catch(function (error) {
+    .catch(function(error) {
         console.log(error);
     });
+
+/* eslint-enable no-console */

@@ -1,6 +1,8 @@
-var Config = require(__dirname + '/../package/Config');
+/* eslint-disable no-console */
 
-var config = new Config();
+let Config = require(__dirname + '/../package/Config');
+
+let config = new Config();
 
 config
     .set('.', {
@@ -16,11 +18,11 @@ config
 
 console.log('full config', config.get('.'));
 
-var clonedConfig = config.clone('.');
+let clonedConfig = config.clone('.');
 
 console.log('clonedConfig', clonedConfig.get('.'));
 
-var serverConfig = config.clone('server');
+let serverConfig = config.clone('server');
 
 console.log('serverConfig immutable', serverConfig.isImmutable());
 
@@ -28,6 +30,8 @@ serverConfig.set('some', 1);
 
 console.log('server config', serverConfig.get('.'));
 
-var restConfig = config.clone('rest');
+let restConfig = config.clone('rest');
 
 console.log('rest config', restConfig.get('.'));
+
+/* eslint-enable no-console */

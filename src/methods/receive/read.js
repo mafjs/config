@@ -1,17 +1,12 @@
-var kindOf = require('../../modules/kind-of');
+let kindOf = require('../../modules/kind-of');
 
-module.exports = function (config, ConfigError, founded) {
-    var promises = [];
+module.exports = function(config, ConfigError, founded) {
+    let promises = [];
 
-    for (var j in founded) {
-
-        var sourcePlugin = founded[j].plugin;
-
-        var sourceFrom = founded[j].from;
-
+    founded.forEach(({plugin: sourcePlugin, from: sourceFrom}, j) => {
         config._debug('receive: read ' + sourceFrom.sourcepath);
 
-        var promise = sourcePlugin.read(sourceFrom.sourcepath);
+        let promise = sourcePlugin.read(sourceFrom.sourcepath);
 
         if (
             !promise ||
@@ -26,7 +21,7 @@ module.exports = function (config, ConfigError, founded) {
         }
 
         promises.push(promise);
-    }
+    });
 
     return promises;
 };

@@ -1,33 +1,34 @@
-var t = require('tap');
+let t = require('tap');
 
-var ConfigError = require('../../../package/Error.js');
-var Config = require('../../../package/Config.js');
+let ConfigError = require('../../../package/Error.js');
+let Config = require('../../../package/Config.js');
 
 
-t.test('should set validation function without errors', function (t) {
-    var config = new Config();
+t.test('should set validation function without errors', function(t) {
+    let config = new Config();
 
-    config.validation(function () {});
+    config.validation(function() {});
 
     t.end();
 });
 
-t.test('should throw error if validation function is not a function', function (t) {
-    var config = new Config();
+t.test('should throw error if validation function is not a function', function(t) {
+    let config = new Config();
 
-    var types = [null, 'string', 100500, undefined, [1, 2, 3], {a: 1}, undefined];
+    let types = [null, 'string', 100500, undefined, [1, 2, 3], {a: 1}, undefined];
 
-    var count = 0;
+    let count = 0;
 
-    var done = function () {
+    let done = function() {
         count++;
         if (count === types.length) {
             t.end();
         }
     };
 
-    for (var i in types) {
-        var type = types[i];
+    // eslint-disable-next-line guard-for-in
+    for (let i in types) {
+        let type = types[i];
 
         try {
             config.validation(type);
@@ -37,6 +38,5 @@ t.test('should throw error if validation function is not a function', function (
             t.ok(error.code === ConfigError.CODES.INVALID_ARGS);
             done();
         }
-
     }
 });

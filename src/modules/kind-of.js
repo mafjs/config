@@ -2,7 +2,7 @@
 // isBuffer commented
 
 // var isBuffer = require('is-buffer');
-var toString = Object.prototype.toString;
+let toString = Object.prototype.toString;
 
 /**
  * Get the native `typeof` a value.
@@ -12,7 +12,7 @@ var toString = Object.prototype.toString;
  */
 
 // eslint-disable-next-line max-statements, complexity
-module.exports = function kindOf (val) {
+module.exports = function kindOf(val) {
     // primitivies
     if (typeof val === 'undefined') {
         return 'undefined';
@@ -49,7 +49,7 @@ module.exports = function kindOf (val) {
     }
 
     // other objects
-    var type = toString.call(val);
+    let type = toString.call(val);
 
     if (type === '[object RegExp]') {
         return 'regexp';

@@ -1,16 +1,11 @@
-module.exports = function (plugins, sourcepath) {
+module.exports = function(plugins, sourcepath) {
+    let found = null;
 
-    var found = null;
-
-    for (var i in plugins) {
-
-        var plugin = plugins[i];
-
+    plugins.forEach((plugin) => {
         if (plugin.isMatch(sourcepath)) {
             found = plugin;
-            break;
         }
-    }
+    });
 
     return found;
 };

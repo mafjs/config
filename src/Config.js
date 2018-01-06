@@ -1,24 +1,26 @@
-var kindOf = require('./modules/kind-of');
+let kindOf = require('./modules/kind-of');
 
-var ConfigError = require('./Error');
+let ConfigError = require('./Error');
 
 // class methods
-var set = require('./methods/set');
-var get = require('./methods/get');
-var validate = require('./methods/validate');
-var use = require('./methods/use');
-var from = require('./methods/from');
-var receive = require('./methods/receive');
-var getRaw = require('./methods/getRaw');
-var setRaw = require('./methods/setRaw');
-var mergeRaw = require('./methods/mergeRaw');
+let set = require('./methods/set');
+let get = require('./methods/get');
+let validate = require('./methods/validate');
+let use = require('./methods/use');
+let from = require('./methods/from');
+let receive = require('./methods/receive');
+let getRaw = require('./methods/getRaw');
+let setRaw = require('./methods/setRaw');
+let mergeRaw = require('./methods/mergeRaw');
 
+/**
+ * Config
+ */
 class Config {
-
     /**
      * @param {?Logger} logger
      */
-    constructor (logger) {
+    constructor(logger) {
         this.Error = ConfigError;
 
         this._logger = this._validateLogger(logger);
@@ -41,7 +43,7 @@ class Config {
      * @param {Boolean} flag
      * @return {this}
      */
-    setImmutable (flag) {
+    setImmutable(flag) {
         if (typeof flag !== 'boolean') {
             throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
                 method: 'setImmutable',
@@ -60,7 +62,7 @@ class Config {
      *
      * @return {Boolean}
      */
-    isImmutable () {
+    isImmutable() {
         return this._immutable;
     }
 
@@ -71,7 +73,7 @@ class Config {
      * @param {Null|Array|String|Number|Object|Boolean} value
      * @return {this}
      */
-    set (name, value) {
+    set(name, value) {
         return set(this, name, value);
     }
 
@@ -82,7 +84,7 @@ class Config {
      * @param {Null|Array|String|Number|Object|Boolean} defaultValue
      * @return {Undefined|Null|Array|String|Number|Object|Boolean}
      */
-    get (name, defaultValue) {
+    get(name, defaultValue) {
         return get(this, name, defaultValue);
     }
 
@@ -93,7 +95,7 @@ class Config {
      * @param {*} value
      * @return {this}
      */
-    setRaw (name, value) {
+    setRaw(name, value) {
         return setRaw(this, name, value);
     }
 
@@ -105,7 +107,7 @@ class Config {
      * @param {*} defaultValue
      * @return {*}
      */
-    getRaw (name, defaultValue) {
+    getRaw(name, defaultValue) {
         return getRaw(this, name, defaultValue);
     }
 
@@ -115,7 +117,7 @@ class Config {
      * @param {Object|Array} source
      * @return {this}
      */
-    mergeRaw (source) {
+    mergeRaw(source) {
         return mergeRaw(this, source);
     }
 
@@ -125,8 +127,7 @@ class Config {
      * @param {Function} validationFunction
      * @return {this}
      */
-    validation (validationFunction) {
-
+    validation(validationFunction) {
         if (kindOf(validationFunction) !== 'function') {
             throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
                 method: 'validation',
@@ -145,7 +146,7 @@ class Config {
      *
      * @return {Promise}
      */
-    validate () {
+    validate() {
         return validate(this);
     }
 
@@ -154,7 +155,7 @@ class Config {
      *
      * @return {Boolean}
      */
-    isValid () {
+    isValid() {
         return this._valid;
     }
 
@@ -165,7 +166,7 @@ class Config {
      * @param {Object} options
      * @return {this}
      */
-    use (plugin, options) {
+    use(plugin, options) {
         use(this, plugin, options);
         return this;
     }
@@ -177,7 +178,7 @@ class Config {
      * @param {String|Array|Undefined} to
      * @return {this}
      */
-    from (sourcepath, to) {
+    from(sourcepath, to) {
         return from(this, sourcepath, to);
     }
 
@@ -186,7 +187,7 @@ class Config {
      *
      * @return {this}
      */
-    receive () {
+    receive() {
         return receive(this);
     }
 
@@ -195,8 +196,7 @@ class Config {
      *
      * @return {Promise}
      */
-    init () {
-
+    init() {
         return new Promise((resolve, reject) => {
             this._debug('init: call');
 
@@ -212,7 +212,6 @@ class Config {
                     reject(error);
                 });
         });
-
     }
 
     /**
@@ -221,14 +220,14 @@ class Config {
      * @param {?String} name
      * @return {Config}
      */
-    clone (name) {
+    clone(name) {
         if (!name) {
             name = '.';
         }
 
-        var data = this.get(name);
+        let data = this.get(name);
 
-        var newConfig = new Config(this._logger);
+        let newConfig = new Config(this._logger);
 
         newConfig.setRaw('.', data);
 
@@ -244,7 +243,7 @@ class Config {
      * @param {?Logger} logger
      * @return {Logger|Null}
      */
-    _validateLogger (logger) {
+    _validateLogger(logger) {
         if (!logger) {
             return null;
         }
@@ -264,13 +263,14 @@ class Config {
     /**
      * @private
      */
-    _debug () {
+    _debug(...args) {
         if (
             this._logger &&
             this._logger.debug &&
             typeof this._logger.debug === 'function'
         ) {
-            this._logger.debug.apply(this._logger, arguments);
+            args.unshift(this._logger);
+            this._logger.debug.apply(...args);
         }
     }
 
@@ -278,13 +278,14 @@ class Config {
     /**
      * @private
      */
-    _trace () {
+    _trace(...args) {
         if (
             this._logger &&
             this._logger.trace &&
             typeof this._logger.trace === 'function'
         ) {
-            this._logger.trace.apply(this._logger, arguments);
+            args.unshift(this._logger);
+            this._logger.trace.apply(...args);
         }
     }
 }

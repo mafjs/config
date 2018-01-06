@@ -1,18 +1,18 @@
-var t = require('tap');
+let t = require('tap');
 
-var ConfigError = require('../../../package/Error.js');
-var Config = require('../../../package/Config.js');
+let ConfigError = require('../../../package/Error.js');
+let Config = require('../../../package/Config.js');
 
 
-t.test('should mutable by default', function (t) {
-    var config = new Config();
+t.test('should mutable by default', function(t) {
+    let config = new Config();
 
     t.ok(config._immutable === false);
     t.end();
 });
 
-t.test('should set immutable true', function (t) {
-    var config = new Config();
+t.test('should set immutable true', function(t) {
+    let config = new Config();
 
     config.setImmutable(true);
 
@@ -21,8 +21,8 @@ t.test('should set immutable true', function (t) {
 });
 
 
-t.test('should set immutable false', function (t) {
-    var config = new Config();
+t.test('should set immutable false', function(t) {
+    let config = new Config();
 
     config.setImmutable(true);
     config.setImmutable(false);
@@ -31,22 +31,23 @@ t.test('should set immutable false', function (t) {
     t.end();
 });
 
-t.test('should throw error if flag is not boolean', function (t) {
-    var config = new Config();
+t.test('should throw error if flag is not boolean', function(t) {
+    let config = new Config();
 
-    var types = [null, 'string', 100500, undefined, [1, 2, 3], {a: 1}, function () {}];
+    let types = [null, 'string', 100500, undefined, [1, 2, 3], {a: 1}, function() {}];
 
-    var count = 0;
+    let count = 0;
 
-    var done = function () {
+    let done = function() {
         count++;
         if (count === types.length) {
             t.end();
         }
     };
 
-    for (var i in types) {
-        var type = types[i];
+    // eslint-disable-next-line guard-for-in
+    for (let i in types) {
+        let type = types[i];
 
         try {
             config.setImmutable(type);
@@ -56,7 +57,5 @@ t.test('should throw error if flag is not boolean', function (t) {
             t.ok(error.code === ConfigError.CODES.INVALID_ARGS);
             done();
         }
-
     }
-
 });

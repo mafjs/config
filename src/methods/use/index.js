@@ -1,13 +1,14 @@
-var ConfigError = require('../../Error');
+let ConfigError = require('../../Error');
 
-var validateReceivePlugin = require('./validateReceivePlugin');
+let validateReceivePlugin = require('./validateReceivePlugin');
 
-module.exports = function (config, Plugin, options) {
-
+module.exports = function(config, Plugin, options) {
     config._debug('use: create instance of Plugin');
 
+    let plugin;
+
     try {
-        var plugin = new Plugin(config._logger);
+        plugin = new Plugin(config._logger);
         config._debug('use: plugin type', plugin.type);
     } catch (error) {
         throw ConfigError.createError(ConfigError.CODES.INVALID_PLUGIN, error);

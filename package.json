@@ -44,7 +44,7 @@
     "eslint": "^4.14.0",
     "in-publish": "^2.0.0",
     "proxyquire": "1.x",
-    "tap": "11.0.1"
+    "tap": "11.1.1"
   },
   "dependencies": {
     "lodash.get": "4.4.x",

@@ -43,7 +43,7 @@
     "coveralls": "3.0.0",
     "eslint": "^4.14.0",
     "in-publish": "^2.0.0",
-    "proxyquire": "1.x",
+    "proxyquire": "2.x",
     "tap": "11.0.1"
   },
   "dependencies": {

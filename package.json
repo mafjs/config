@@ -1,6 +1,6 @@
 {
   "name": "@0devs/config",
-  "version": "1.2.0",
+  "version": "0.0.0",
   "description": "extendable config",
   "main": "index.js",
   "scripts": {
@@ -39,7 +39,6 @@
     "@0devs/error": "^0.4.0",
     "lodash.get": "4.4.x",
     "lodash.merge": "4.6.x",
-    "lodash.set": "4.3.x",
-    "maf-error": "^1.2.0"
+    "lodash.set": "4.3.x"
   }
 }

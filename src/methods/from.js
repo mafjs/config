@@ -1,6 +1,6 @@
-const kindOf = require('../modules/kind-of');
+import ConfigError from '../Error';
 
-const ConfigError = require('../Error');
+const kindOf = require('../modules/kind-of');
 
 const _in = require('./_in');
 

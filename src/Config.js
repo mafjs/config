@@ -221,7 +221,7 @@ class Config {
   /**
      * clone config
      *
-     * @param {?String} name
+     * @param {String} name = '.'
      * @return {Config}
      */
   clone(name = '.') {

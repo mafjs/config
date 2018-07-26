@@ -34,6 +34,7 @@ t.test('should throw error if validation function is not a function', function(t
             config.validation(type);
             t.threw(new Error('no error thrown for type = ' + type));
         } catch (error) {
+            console.log(error);
             t.ok(error instanceof ConfigError);
             t.ok(error.code === ConfigError.CODES.INVALID_ARGS);
             done();

@@ -1,38 +1,39 @@
-let ConfigError = require('../../Error');
+const ConfigError = require('../../Error');
 
-let validateReceivePlugin = require('./validateReceivePlugin');
+const validateReceivePlugin = require('./validateReceivePlugin');
 
-module.exports = function(config, Plugin, options) {
-    config._debug('use: create instance of Plugin');
+module.exports = function methodsUseIndex(config, Plugin, options) {
+  config._debug('use: create instance of Plugin');
 
-    let plugin;
+  let plugin;
 
-    try {
-        plugin = new Plugin(config._logger);
-        config._debug('use: plugin type', plugin.type);
-    } catch (error) {
-        throw ConfigError.createError(ConfigError.CODES.INVALID_PLUGIN, error);
-    }
+  try {
+    plugin = new Plugin(config._logger);
+    config._debug('use: plugin type', plugin.type);
+  } catch (error) {
+    throw new ConfigError(ConfigError.CODES.INVALID_PLUGIN, error);
+  }
 
-    switch (plugin.type) {
-        case 'receive':
+  switch (plugin.type) {
+    case 'receive':
 
-            config._debug('use: create plugin instance of receive type');
+      config._debug('use: create plugin instance of receive type');
 
-            validateReceivePlugin(plugin, ConfigError);
+      validateReceivePlugin(plugin, ConfigError);
 
-            config._debug('use: init receive plugin ' + plugin.name);
+      config._debug(`use: init receive plugin ${plugin.name}`);
 
-            plugin.init(options);
+      plugin.init(options);
 
-            config._receivePlugins.push(plugin);
+      config._receivePlugins.push(plugin);
 
-            break;
-        default:
-            throw ConfigError
-                .createError(ConfigError.CODES.INVALID_PLUGIN_TYPE)
-                .bind({type: plugin.type});
-    }
+      break;
+    default:
+      throw new ConfigError({
+        code: ConfigError.CODES.INVALID_PLUGIN_TYPE,
+        data: { type: plugin.type },
+      });
+  }
 
-    return config;
+  return config;
 };

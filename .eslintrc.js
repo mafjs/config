@@ -1,3 +1,6 @@
 module.exports = {
-    extends: '@maf/eslint-config'
+  "extends": "./node_modules/@0devs/package/config/eslint.js",
+  "rules": {
+    "no-param-reassign": "off"
+  },
 };

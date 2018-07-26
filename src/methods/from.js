@@ -1,39 +1,45 @@
-let kindOf = require('../modules/kind-of');
+const kindOf = require('../modules/kind-of');
 
-let ConfigError = require('../Error');
+const ConfigError = require('../Error');
 
-let _in = require('./_in');
+const _in = require('./_in');
 
-module.exports = function(config, sourcepath, to) {
-    let sourcepathType = kindOf(sourcepath);
+module.exports = function methodsFrom(config, sourcepath, to) {
+  const sourcepathType = kindOf(sourcepath);
 
-    if (_in(['string'], sourcepathType) === false) {
-        throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
-            method: 'from',
-            arg: 'sourcepath',
-            type: 'string'
-        });
-    }
+  if (_in(['string'], sourcepathType) === false) {
+    throw new ConfigError({
+      code: ConfigError.CODES.INVALID_ARGS,
+      data: {
+        method: 'from',
+        arg: 'sourcepath',
+        type: 'string',
+      },
+    });
+  }
 
-    let toType = kindOf(to);
+  const toType = kindOf(to);
 
-    if (_in(['string', 'array', 'undefined'], toType) === false) {
-        throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
-            method: 'from',
-            arg: 'to',
-            type: 'string, array, undefined'
-        });
-    }
+  if (_in(['string', 'array', 'undefined'], toType) === false) {
+    throw new ConfigError({
+      code: ConfigError.CODES.INVALID_ARGS,
+      data: {
+        method: 'from',
+        arg: 'to',
+        type: 'string, array, undefined',
+      },
+    });
+  }
 
-    if (toType === 'string') {
-        to = to.trim();
-    }
+  if (toType === 'string') {
+    to = to.trim();
+  }
 
-    if (toType === 'undefined') {
-        to = '.';
-    }
+  if (toType === 'undefined') {
+    to = '.';
+  }
 
-    config._from.push({sourcepath: sourcepath, to: to});
+  config._from.push({ sourcepath, to });
 
-    return config;
+  return config;
 };

@@ -1,59 +1,65 @@
-let _set = require('lodash.set');
+const _set = require('lodash.set');
 
-let kindOf = require('../modules/kind-of');
+const kindOf = require('../modules/kind-of');
 
-let ConfigError = require('../Error');
+const ConfigError = require('../Error');
 
-let _in = require('./_in');
+const _in = require('./_in');
 
-module.exports = function(config, name, value) {
-    config._debug(
-        'set: name = ', name,
-        'value = ', value,
-        '_immutable = ', config._immutable
-    );
+module.exports = function methodsSet(config, name, value) {
+  config._debug(
+    'set: name = ', name,
+    'value = ', value,
+    '_immutable = ', config._immutable,
+  );
 
-    if (config._immutable === true) {
-        throw new ConfigError(ConfigError.CODES.IMMUTABLE);
-    }
+  if (config._immutable === true) {
+    throw new ConfigError(ConfigError.CODES.IMMUTABLE);
+  }
 
-    let typeOfName = kindOf(name);
+  const typeOfName = kindOf(name);
 
-    config._debug('set: typeOf name = ', typeOfName);
+  config._debug('set: typeOf name = ', typeOfName);
 
-    let nameTypes = ['string', 'array'];
+  const nameTypes = ['string', 'array'];
 
-    if (_in(nameTypes, typeOfName) === false) {
-        throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
-            method: 'set',
-            arg: 'name',
-            type: 'string, array'
-        });
-    }
+  if (_in(nameTypes, typeOfName) === false) {
+    throw new ConfigError({
+      code: ConfigError.CODES.INVALID_ARGS,
+      data: {
+        method: 'set',
+        arg: 'name',
+        type: 'string, array',
+      },
+    });
+  }
 
-    if (typeOfName === 'string') {
-        name = name.trim();
-    }
+  if (typeOfName === 'string') {
+    name = name.trim();
+  }
 
-    let typeOfValue = kindOf(value);
+  const typeOfValue = kindOf(value);
 
-    config._debug('set: typeOf value = ', typeOfValue);
+  config._debug('set: typeOf value = ', typeOfValue);
 
-    let valueTypes = ['null', 'array', 'string', 'number', 'object', 'boolean'];
+  const valueTypes = ['null', 'array', 'string', 'number', 'object', 'boolean'];
 
-    if (_in(valueTypes, typeOfValue) === false) {
-        throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
-            method: 'set',
-            arg: 'value',
-            type: 'null, array, string, number, object, boolean'
-        });
-    }
+  if (_in(valueTypes, typeOfValue) === false) {
+    throw new ConfigError({
+      code: ConfigError.CODES.INVALID_ARGS,
+      data: {
+        method: 'set',
+        arg: 'value',
+        type: 'null, array, string, number, object, boolean',
+      },
+    });
+  }
 
-    if (name === '.') {
-        config._data = value;
-    } else {
-        _set(config._data, name, value);
-    }
+  if (name === '.') {
+    config._data = value;
+  } else {
+    _set(config._data, name, value);
+  }
 
-    return config;
+  return config;
 };

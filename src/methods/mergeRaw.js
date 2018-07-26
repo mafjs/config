@@ -1,29 +1,32 @@
-let _merge = require('lodash.merge');
+const _merge = require('lodash.merge');
 
-let kindOf = require('../modules/kind-of');
+const kindOf = require('../modules/kind-of');
 
-let ConfigError = require('../Error');
+const ConfigError = require('../Error');
 
-let _in = require('./_in');
+const _in = require('./_in');
 
-module.exports = function(config, source) {
-    config._debug('mergeRaw: source = ', source);
+module.exports = function methodsMergeRaw(config, source) {
+  config._debug('mergeRaw: source = ', source);
 
-    let typeOfSource = kindOf(source);
+  const typeOfSource = kindOf(source);
 
-    config._trace('mergeRaw: typeOf source = ', typeOfSource);
+  config._trace('mergeRaw: typeOf source = ', typeOfSource);
 
-    if (_in(['object', 'array'], typeOfSource) === false) {
-        throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
-            method: 'mergeRaw',
-            arg: 'source',
-            type: 'object, array'
-        });
-    }
+  if (_in(['object', 'array'], typeOfSource) === false) {
+    throw new ConfigError({
+      code: ConfigError.CODES.INVALID_ARGS,
+      data: {
+        method: 'mergeRaw',
+        arg: 'source',
+        type: 'object, array',
+      },
+    });
+  }
 
-    let data = _merge(config._data, source);
+  const data = _merge(config._data, source);
 
-    config.setRaw('.', data);
+  config.setRaw('.', data);
 
-    return config;
+  return config;
 };

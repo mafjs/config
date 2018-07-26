@@ -1,27 +1,28 @@
-let kindOf = require('../../modules/kind-of');
+const kindOf = require('../../modules/kind-of');
 
-module.exports = function(config, ConfigError, founded) {
-    let promises = [];
+module.exports = function methodsReceiveRead(config, ConfigError, founded) {
+  const promises = [];
 
-    founded.forEach(({plugin: sourcePlugin, from: sourceFrom}, j) => {
-        config._debug('receive: read ' + sourceFrom.sourcepath);
+  founded.forEach(({ plugin: sourcePlugin, from: sourceFrom } /* , j */) => {
+    config._debug(`receive: read ${sourceFrom.sourcepath}`);
 
-        let promise = sourcePlugin.read(sourceFrom.sourcepath);
+    const promise = sourcePlugin.read(sourceFrom.sourcepath);
 
-        if (
-            !promise ||
-            kindOf(promise.then) !== 'function' ||
-            kindOf(promise.catch) !== 'function'
-        ) {
-            throw ConfigError
-                .createError(ConfigError.CODES.INVALID_PLUGIN_READ)
-                .bind({
-                    name: sourcePlugin.name
-                });
-        }
+    if (
+      !promise
+            || kindOf(promise.then) !== 'function'
+            || kindOf(promise.catch) !== 'function'
+    ) {
+      throw new ConfigError({
+        code: ConfigError.CODES.INVALID_PLUGIN_READ,
+        data: {
+          name: sourcePlugin.name,
+        },
+      });
+    }
 
-        promises.push(promise);
-    });
+    promises.push(promise);
+  });
 
-    return promises;
+  return promises;
 };

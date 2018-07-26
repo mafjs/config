@@ -1,20 +1,21 @@
-module.exports = function(plugin, ConfigError) {
-    // validate receive plugin interface
-    let props = {
-        'name': 'string',
-        'init': 'function',
-        'isMatch': 'function',
-        'read': 'function'
-    };
+module.exports = function methodsUseValidateReceivePlugin(plugin, ConfigError) {
+  // validate receive plugin interface
+  const props = {
+    name: 'string',
+    init: 'function',
+    isMatch: 'function',
+    read: 'function',
+  };
 
-    Object.keys(props).forEach((name) => {
-        let type = props[name];
+  Object.keys(props).forEach((name) => {
+    const type = String(props[name]);
+    const typeOf = typeof plugin[name];
 
-        if (typeof plugin[name] !== type) {
-            throw ConfigError.createError(
-                ConfigError.CODES.INVALID_PLUGIN,
-                'maf-config: receive plugin type:  prop "' + name + '" is not ' + type
-            );
-        }
-    });
+    if (typeOf !== type) {
+      throw new ConfigError({
+        code: ConfigError.CODES.INVALID_PLUGIN,
+        message: `maf-config: receive plugin type:  prop "${name}" is not ${type}`,
+      });
+    }
+  });
 };

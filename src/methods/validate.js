@@ -1,45 +1,47 @@
-let kindOf = require('../modules/kind-of');
+const kindOf = require('../modules/kind-of');
 
-let ConfigError = require('../Error');
+const ConfigError = require('../Error');
 
-module.exports = function(config) {
-    return new Promise(function(resolve, reject) {
-        if (config._validation) {
-            config._debug('validate: call validation function');
+module.exports = function methodsValidate(config) {
+  return new Promise(((resolve, reject) => {
+    if (config._validation) {
+      config._debug('validate: call validation function');
 
-            let promise = config._validation(config._data);
+      const promise = config._validation(config._data);
 
-            if (
-                !promise ||
-                kindOf(promise.then) !== 'function' ||
-                kindOf(promise.catch) !== 'function'
-            ) {
-                return reject(ConfigError.createError(
-                    ConfigError.CODES.INVALID_VALIDATION_FUNCTION
-                ));
-            }
+      if (
+        !promise
+                || kindOf(promise.then) !== 'function'
+                || kindOf(promise.catch) !== 'function'
+      ) {
+        return reject(new ConfigError(
+          ConfigError.CODES.INVALID_VALIDATION_FUNCTION,
+        ));
+      }
 
-            promise
-                .then(function(valid) {
-                    config._debug('validate: validation function promise resolved');
-                    config._data = valid;
-                    config._valid = true;
-                    resolve();
-                })
-                .catch(function(error) {
-                    config._debug(
-                        'validate: validation function promise rejected with message = ',
-                        error.message,
-                        'and code = ',
-                        error.code
-                    );
+      promise
+        .then((valid) => {
+          config._debug('validate: validation function promise resolved');
+          config._data = valid;
+          config._valid = true;
+          resolve();
+        })
+        .catch((error) => {
+          config._debug(
+            'validate: validation function promise rejected with message = ',
+            error.message,
+            'and code = ',
+            error.code,
+          );
 
-                    reject(ConfigError.createError(ConfigError.CODES.INVALID_DATA, error));
-                });
-        } else {
-            config._debug('validate: no validation function, resolve');
-            config._valid = true;
-            resolve();
-        }
-    });
+          reject(new ConfigError(ConfigError.CODES.INVALID_DATA, error));
+        });
+    } else {
+      config._debug('validate: no validation function, resolve');
+      config._valid = true;
+      resolve();
+    }
+
+    return undefined;
+  }));
 };

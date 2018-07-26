@@ -1,70 +1,76 @@
-let _get = require('lodash.get');
+const _get = require('lodash.get');
 
 // var _clone = require('lodash.clonedeep');
 
-let kindOf = require('../modules/kind-of');
+const kindOf = require('../modules/kind-of');
 
-let ConfigError = require('../Error');
+const ConfigError = require('../Error');
 
-let _in = require('./_in');
+const _in = require('./_in');
 
-let _clone = function(value) {
-    let valueType = kindOf(value);
+const _clone = function methodsGetClone(value) {
+  const valueType = kindOf(value);
 
-    if (_in(['object', 'array'], valueType)) {
-        return JSON.parse(JSON.stringify(value));
-    }
+  if (_in(['object', 'array'], valueType)) {
+    return JSON.parse(JSON.stringify(value));
+  }
 
-    return value;
+  return value;
 };
 
-module.exports = function(config, name, defaultValue) {
-    config._debug(
-        'get: name = ', name,
-        'defaultValue = ', defaultValue
-    );
+module.exports = function methodsGet(config, name, defaultValue) {
+  config._debug(
+    'get: name = ', name,
+    'defaultValue = ', defaultValue,
+  );
 
-    let typeOfName = kindOf(name);
+  const typeOfName = kindOf(name);
 
-    config._debug('get: typeOf name = ', typeOfName);
+  config._debug('get: typeOf name = ', typeOfName);
 
-    if (_in(['string', 'array'], typeOfName) === false) {
-        throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
-            method: 'get',
-            arg: 'name',
-            type: 'string, array'
-        });
-    }
+  if (_in(['string', 'array'], typeOfName) === false) {
+    throw new ConfigError({
+      code: ConfigError.CODES.INVALID_ARGS,
+      data: {
+        method: 'get',
+        arg: 'name',
+        type: 'string, array',
+      },
+    });
+  }
 
-    if (typeOfName === 'string') {
-        name = name.trim();
-    }
+  if (typeOfName === 'string') {
+    name = name.trim();
+  }
 
-    let typeOfDefaultValue = kindOf(defaultValue);
+  const typeOfDefaultValue = kindOf(defaultValue);
 
-    config._debug('get: typeOf value = ', typeOfDefaultValue);
+  config._debug('get: typeOf value = ', typeOfDefaultValue);
 
-    let valueTypes = ['undefined', 'null', 'array', 'string', 'number', 'object', 'boolean'];
+  const valueTypes = ['undefined', 'null', 'array', 'string', 'number', 'object', 'boolean'];
 
-    if (_in(valueTypes, typeOfDefaultValue) === false) {
-        throw ConfigError.createError(ConfigError.CODES.INVALID_ARGS, {
-            method: 'set',
-            arg: 'value',
-            type: 'undefined, null, array, string, number, object, boolean'
-        });
-    }
+  if (_in(valueTypes, typeOfDefaultValue) === false) {
+    throw new ConfigError({
+      code: ConfigError.CODES.INVALID_ARGS,
+      data: {
+        method: 'set',
+        arg: 'value',
+        type: 'undefined, null, array, string, number, object, boolean',
+      },
+    });
+  }
 
-    let value;
+  let value;
 
-    if (name === '.') {
-        value = config._data;
-        config._debug('get: name == \'.\' return full config object');
-    } else {
-        config._debug('get: call lodash.get ' + name);
-        value = _get(config._data, name, defaultValue);
-    }
+  if (name === '.') {
+    value = config._data;
+    config._debug('get: name == \'.\' return full config object');
+  } else {
+    config._debug(`get: call lodash.get ${name}`);
+    value = _get(config._data, name, defaultValue);
+  }
 
-    config._debug('get: return value', value);
+  config._debug('get: return value', value);
 
-    return _clone(value);
+  return _clone(value);
 };

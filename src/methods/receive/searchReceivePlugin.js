@@ -1,11 +1,11 @@
-module.exports = function(plugins, sourcepath) {
-    let found = null;
+module.exports = function methodsReceiveSearchReceivePlugin(plugins, sourcepath) {
+  let found = null;
 
-    plugins.forEach((plugin) => {
-        if (plugin.isMatch(sourcepath)) {
-            found = plugin;
-        }
-    });
+  plugins.forEach((plugin) => {
+    if (plugin.isMatch(sourcepath)) {
+      found = plugin;
+    }
+  });
 
-    return found;
+  return found;
 };

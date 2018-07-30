@@ -13,6 +13,8 @@ const getRaw = require('./methods/getRaw');
 const setRaw = require('./methods/setRaw');
 const mergeRaw = require('./methods/mergeRaw');
 
+export { ConfigError as Error };
+
 /**
  * Config
  */
